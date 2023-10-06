@@ -584,6 +584,8 @@ main {
   z-index: 1;
 }
 
+.service-icon-box ion-icon { --ionicon-stroke-width: 60px; }
+
 /* .service-icon-box img { margin: auto; } */
 
 .service-content-box { text-align: center; }
