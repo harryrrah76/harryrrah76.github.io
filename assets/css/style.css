@@ -442,7 +442,7 @@ main {
 
 .contact-title {
   color: var(--light-gray-70);
-  font-size: var(--fs-8);
+  font-size: 14px;
   text-transform: uppercase;
   margin-bottom: 2px;
   font-family: monospace;
