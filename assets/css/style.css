@@ -237,7 +237,6 @@ article.active {
 .h2 {
   font-size: var(--fs-1);
   font-family: monospace;
-  margin-top: 20px;
 }
 
 .h3 {
@@ -299,6 +298,7 @@ article.active {
   box-shadow: var(--shadow-2);
   cursor: pointer;
   z-index: 1;
+  margin-bottom: 20px;
 }
 
 .content-card::before {
