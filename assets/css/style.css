@@ -88,6 +88,7 @@
   --fs-8: 11px;
 
   /* font-weight */
+  --fw-100: 100;
   --fw-200: 200;
   --fw-300: 300;
   --fw-400: 400;
@@ -865,14 +866,14 @@ main {
 
 .timeline-text {
   color: var(--white-2);
-  font-weight: var(--fw-200);
+  font-weight: var(--fw-100);
   font-size: var(--fs-7);
   line-height: 1.6;
   font-family: monospace;
 }
 
 .timeline-text li{
-  margin-left:18px;
+  margin-left:17px;
   list-style: disc;
 }
 
