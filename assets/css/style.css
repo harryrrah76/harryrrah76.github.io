@@ -158,7 +158,9 @@ input, textarea {
 
 html { font-family: var(--ff-poppins); }
 
-body { background: var(--smoky-black); }
+body { 
+  background-image: url('../images/bg.jpg'); 
+}
 
 
 
@@ -572,13 +574,12 @@ main {
 
 .service-icon-box {
   position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 5px;
+  width: 20px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 16px;
+  font-size: 40px;
   color: var(--orange-yellow-crayola);
   z-index: 1;
 }
