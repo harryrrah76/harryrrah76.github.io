@@ -573,15 +573,14 @@ main {
 .service-icon-box {
   position: relative;
   background: var(--border-gradient-onyx);
-  width: 50px;
-  height: 50px;
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  border-radius: 20px;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 16px;
   color: var(--orange-yellow-crayola);
-  box-shadow: var(--shadow-1);
   z-index: 1;
 }
 
