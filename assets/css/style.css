@@ -866,7 +866,7 @@ main {
 .timeline-text {
   color: var(--white-2);
   font-weight: var(--fw-200);
-  font-size: var(--fs-75);
+  font-size: var(--fs-7);
   line-height: 1.6;
   font-family: monospace;
 }
