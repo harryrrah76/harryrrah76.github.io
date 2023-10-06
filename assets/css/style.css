@@ -871,7 +871,7 @@ main {
   line-height: 1.6;
   font-family: monospace;
   text-align: justify;
-  text-justify: inter-word;
+  text-justify: auto;
 }
 
 .timeline-text li{
