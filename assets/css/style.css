@@ -864,7 +864,10 @@ main {
  * skills 
  */
 
-.skills-title { margin-bottom: 20px; }
+.skills-title {
+  margin-bottom: 20px;
+  font-family: monospace;
+}
 
 .skills-list { padding: 20px; }
 
