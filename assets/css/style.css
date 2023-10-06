@@ -837,6 +837,7 @@ main {
   color: var(--light-gray);
   font-weight: var(--fw-300);
   line-height: 1.6;
+  font-family: monospace;
 }
 
 
