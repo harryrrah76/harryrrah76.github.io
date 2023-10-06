@@ -823,7 +823,7 @@ main {
   font-family: monospace;
 }
 
-.timeline-item-title {
+.timeline-item-subtitle {
   font-size: var(--fs-6);
   color: var(--light-gray);
   line-height: 1.3;
