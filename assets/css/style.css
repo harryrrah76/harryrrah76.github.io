@@ -160,7 +160,7 @@ html { font-family: monospace; }
 
 body { 
   background-image: url('../images/bg.jpg');
-  background-size: cover;
+  background-size: auto;
   background-repeat: no-repeat;
 }
 
