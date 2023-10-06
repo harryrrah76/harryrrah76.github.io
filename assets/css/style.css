@@ -572,9 +572,8 @@ main {
 
 .service-icon-box {
   position: relative;
-  background: var(--border-gradient-onyx);
-  width: 100px;
-  height: 100px;
+  width: 60;
+  height: 60;
   border-radius: 20px;
   display: flex;
   justify-content: center;
