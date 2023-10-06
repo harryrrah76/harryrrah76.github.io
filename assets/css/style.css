@@ -862,7 +862,7 @@ main {
 }
 
 .timeline-text {
-  color: var(--vegas-gold);
+  color: var(--white-2);
   font-weight: var(--fw-300);
   line-height: 1.6;
   font-family: monospace;
