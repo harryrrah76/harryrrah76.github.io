@@ -1368,7 +1368,12 @@ textarea.form-input::-webkit-resizer { display: none; }
     font-size: 18px;
   }
 
-
+  .icon-box2 {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    font-size: 18px;
+  }
 
   /**
    * #MAIN
