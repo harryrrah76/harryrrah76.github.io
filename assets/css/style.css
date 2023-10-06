@@ -573,8 +573,8 @@ main {
 .service-icon-box {
   position: relative;
   background: var(--border-gradient-onyx);
-  width: 30px;
-  height: 30px;
+  width: 50px;
+  height: 50px;
   border-radius: 8px;
   display: flex;
   justify-content: center;
@@ -585,7 +585,7 @@ main {
   z-index: 1;
 }
 
-.service-icon-box img { margin: auto; }
+/* .service-icon-box img { margin: auto; } */
 
 .service-content-box { text-align: center; }
 
