@@ -88,6 +88,7 @@
   --fs-8: 11px;
 
   /* font-weight */
+  --fw-200: 200;
   --fw-300: 300;
   --fw-400: 400;
   --fw-500: 500;
@@ -864,7 +865,7 @@ main {
 
 .timeline-text {
   color: var(--white-2);
-  font-weight: var(--fw-300);
+  font-weight: var(--fw-200);
   font-size: var(--fs-75);
   line-height: 1.6;
   font-family: monospace;
