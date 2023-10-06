@@ -446,6 +446,7 @@ main {
 .contact-info :is(.contact-link, time, address) {
   color: var(--white-2);
   font-size: var(--fs-7);
+  font-family: monospace;
 }
 
 .contact-info address { 
@@ -1899,6 +1900,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .contact-info :is(.contact-link, time, address) {
     --fs-7: 14px;
     font-weight: var(--fw-300);
+    font-family: monospace;
   }
 
   .separator:last-of-type {
