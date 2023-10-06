@@ -228,15 +228,25 @@ article.active {
   text-transform: capitalize;
 }
 
-.h2 { font-size: var(--fs-1); }
+.h2 {
+  font-size: var(--fs-1);
+  font-family: monospace;
+}
 
-.h3 { font-size: var(--fs-2); }
+.h3 {
+  font-size: var(--fs-2);
+  font-family: monospace;
+}
 
-.h4 { font-size: var(--fs-4); }
+.h4 {
+  font-size: var(--fs-4);
+  font-family: monospace;
+}
 
 .h5 {
   font-size: var(--fs-7);
   font-weight: var(--fw-500);
+  font-family: monospace;
 }
 
 .article-title {
@@ -350,6 +360,7 @@ main {
   font-weight: var(--fw-500);
   letter-spacing: -0.25px;
   margin-bottom: 10px;
+  font-family: monospace;
 }
 
 .info-content .title {
@@ -359,6 +370,7 @@ main {
   font-weight: var(--fw-300);
   width: max-content;
   padding: 3px 12px;
+  font-family: monospace;
   border-radius: 8px;
 }
 
@@ -491,6 +503,7 @@ main {
   color: var(--light-gray);
   font-size: var(--fs-8);
   padding: 20px 7px;
+  font-family: monospace;
   transition: color var(--transition-1);
 }
 
@@ -514,6 +527,7 @@ main {
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
   line-height: 1.6;
+  font-family: monospace;
 }
 
 .about-text p { margin-bottom: 15px; }
@@ -867,6 +881,7 @@ main {
   color: var(--light-gray);
   font-size: var(--fs-7);
   font-weight: var(--fw-300);
+  font-family: monospace;
 }
 
 .skill-progress-bg {
@@ -1033,6 +1048,7 @@ main {
   font-weight: var(--fw-400);
   text-transform: capitalize;
   line-height: 1.3;
+  font-family: monospace;
 }
 
 .project-category {
@@ -1127,6 +1143,7 @@ main {
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
   line-height: 1.6;
+  font-family: monospace;
 }
 
 
@@ -1312,6 +1329,7 @@ textarea.form-input::-webkit-resizer { display: none; }
   .article-title {
     font-weight: var(--fw-600);
     padding-bottom: 15px;
+    font-family: monospace;
   }
 
   .article-title::after {
