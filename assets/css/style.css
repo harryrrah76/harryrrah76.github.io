@@ -854,7 +854,7 @@ main {
 .timeline-text {
   color: var(--light-gray);
   font-weight: var(--fw-300);
-  line-height: 1.6;
+  line-height: 0.7;
   font-family: monospace;
   font-style: italic; 
 }
