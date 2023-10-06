@@ -861,11 +861,10 @@ main {
 }
 
 .timeline-body {
-  color: var(--light-gray);
+  color: var(--white-2);
   font-weight: var(--fw-300);
   line-height: 1.6;
   font-family: monospace;
-  font-style: italic; 
 }
 
 
