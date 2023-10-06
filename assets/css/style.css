@@ -866,8 +866,11 @@ main {
   font-weight: var(--fw-300);
   line-height: 1.6;
   font-family: monospace;
-  list-style-type: disc;
   margin-left: 90px;
+}
+
+.timeline-text li{
+  list-style: disc;
 }
 
 
