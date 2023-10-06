@@ -823,6 +823,15 @@ main {
   font-family: monospace;
 }
 
+.timeline-item-title {
+  font-size: var(--fs-6);
+  color: var(--light-gray);
+  line-height: 1.3;
+  margin-bottom: 7px;
+  font-family: monospace;
+  font-style: italic;
+}
+
 .timeline-list span {
   color: var(--vegas-gold);
   font-weight: var(--fw-400);
