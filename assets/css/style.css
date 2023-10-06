@@ -428,6 +428,7 @@ main {
   font-size: var(--fs-8);
   text-transform: uppercase;
   margin-bottom: 2px;
+  font-family: monospace;
 }
 
 .contact-info :is(.contact-link, time, address) {
@@ -435,7 +436,10 @@ main {
   font-size: var(--fs-7);
 }
 
-.contact-info address { font-style: normal; }
+.contact-info address { 
+  font-style: normal; 
+  font-family: monospace;
+}
 
 .social-list {
   display: flex;
