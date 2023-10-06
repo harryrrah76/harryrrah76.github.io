@@ -238,11 +238,13 @@ article.active {
 .h2 {
   font-size: var(--fs-1);
   font-family: monospace;
+  margin-top: 20px;
 }
 
 .h3 {
   font-size: var(--fs-2);
   font-family: monospace;
+  margin-top: 20px;
 }
 
 .h4 {
