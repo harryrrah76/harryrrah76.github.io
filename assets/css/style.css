@@ -583,7 +583,7 @@ main {
   z-index: 1;
 }
 
-.service-icon-box ion-icon { --ionicon-stroke-width: 60px; }
+.service-icon-box ion-icon { width: 60px; }
 
 /* .service-icon-box img { margin: auto; } */
 
