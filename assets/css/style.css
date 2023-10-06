@@ -572,8 +572,8 @@ main {
 
 .service-icon-box {
   position: relative;
-  width: 60;
-  height: 60;
+  width: 60px;
+  height: 60px;
   border-radius: 20px;
   display: flex;
   justify-content: center;
