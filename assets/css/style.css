@@ -159,9 +159,9 @@ input, textarea {
 html { font-family: monospace; }
 
 body { 
-  background-image: url('../images/bg.jpg');
+  background-image: url('../images/bg5.jpg');
   background-size: cover;
-  background-repeat: no-repeat
+  /* background-repeat: no-repeat */
 }
 
 
