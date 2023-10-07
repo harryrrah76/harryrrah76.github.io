@@ -174,7 +174,7 @@ body {
 
 .sidebar,
 article {
-  background: rgb(0 0 0 / 70%);
+  background: rgb(0 0 0 /85%);
   border: 1px solid var(--jet);
   border-radius: 20px;
   padding: 15px;
