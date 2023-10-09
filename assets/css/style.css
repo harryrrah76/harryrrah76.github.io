@@ -868,6 +868,13 @@ main {
   font-weight: 400;
 }
 
+.h4.h4.timeline-item-title p {
+  color: hsl(246.98deg 10.54% 62.32%);
+  font-style: italic;
+  font-size: 14px;
+  font-weight: 100;
+}
+
 .timeline-list span {
   color: var(--vegas-gold);
   font-weight: var(--fw-400);
