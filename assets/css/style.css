@@ -868,17 +868,6 @@ main {
   font-weight: 400;
 }
 
-.h4.h4.timeline-item-subtitle span {
-  font-size: var(--fs-6);
-  color: hsl(246.98deg 10.54% 62.32%);
-  line-height: 1.3;
-  margin-bottom: 20px;
-  font-family: monospace;
-  font-style: italic;
-  font-weight: 400;
-  margin-right: 92px;
-}
-
 .timeline-list span {
   color: var(--vegas-gold);
   font-weight: var(--fw-400);
