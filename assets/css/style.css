@@ -540,13 +540,6 @@ main {
   font-family: monospace;
 }
 
-.about-text img {
-  width: 20px;
-  height: 20px;
-  display: inline;
-  vertical-align: middle;
-}
-
 .about-text p { 
   margin-bottom: 15px;
   text-align: justify;
@@ -617,6 +610,13 @@ main {
 
 .h3.h3.award-sub p {
   font-size: 14px;
+}
+
+.h4.h4.timeline-item-title img {
+  width: 20px;
+  height: 20px;
+  display: inline;
+  vertical-align: middle;
 }
 
 .h3.h3.award-sub img {
