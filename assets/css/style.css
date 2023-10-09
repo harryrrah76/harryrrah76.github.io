@@ -785,18 +785,26 @@ main {
  */
  .mbti { margin-bottom: 15px; }
  
- .mbti-item {
+ h3.h3.mbti-title {
+  margin-bottom: 30px;
+}
+
+.mbti-content {
+  color: white;
+}
+
+ .mbti-content {
    min-width: 50%;
    scroll-snap-align: start;
  }
  
- .mbti-item img {
+ .mbti-content img {
    width: 100%;
    filter: grayscale(1);
    transition: var(--transition-1);
  }
- 
- .mbti-item img:hover { filter: grayscale(0); }
+
+ .mbti-content img:hover { filter: grayscale(0); }
 
 /**
  * #clients 
