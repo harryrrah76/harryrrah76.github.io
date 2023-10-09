@@ -610,6 +610,7 @@ main {
 
 .h3.h3.award-sub p {
   font-size: 14px;
+  display: inline;
 }
 
 .h4.h4.timeline-item-title img {
