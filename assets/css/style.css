@@ -547,7 +547,11 @@ main {
   vertical-align: middle;
 }
 
-.about-text p { margin-bottom: 15px; }
+.about-text p { 
+  margin-bottom: 15px;
+  text-align: justify;
+  text-justify: auto;
+}
 
 
 
