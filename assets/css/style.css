@@ -534,10 +534,16 @@ main {
 
 .about-text {
   color: var(--light-gray);
-  font-size: 18px;
+  font-size: var(--fs-6);
   font-weight: var(--fw-300);
   line-height: 1.6;
   font-family: monospace;
+}
+
+.about-text img {
+  width: 15px;
+  height: 15px;
+  vertical-align: middle;
 }
 
 .about-text p { margin-bottom: 15px; }
@@ -814,6 +820,12 @@ main {
 \*-----------------------------------*/
 
 .article-title { margin-bottom: 30px; }
+
+.article-title img {
+  width: 20px;
+  height: 20px;
+  display: inline;
+}
 
 
 /**
