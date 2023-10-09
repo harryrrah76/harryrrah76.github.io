@@ -615,6 +615,14 @@ main {
   font-family: monospace;
 }
 
+.h3.h3.award-sub p {
+  font-size: 14px;
+}
+
+.h3.h3.award-sub img {
+  height: 20px;
+  display: inline;
+}
 
 /**
  * #testimonials 
