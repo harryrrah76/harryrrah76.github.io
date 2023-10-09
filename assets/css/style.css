@@ -780,31 +780,28 @@ main {
   font-weight: var(--fw-300);
   line-height: 1.6;
 }
+
 /**
  * #mbti 
  */
- .mbti { margin-bottom: 15px; }
+.mbti { margin-bottom: 15px; }
  
- h3.h3.mbti-title {
+h3.h3.mbti-title {
   margin-bottom: 30px;
 }
 
 .mbti-content {
   color: white;
 }
-
- .mbti-content {
-   min-width: 50%;
-   scroll-snap-align: start;
- }
  
- .mbti-content img {
-   width: 100%;
-   filter: grayscale(1);
-   transition: var(--transition-1);
- }
+.mbti-content img {
+  height: 150px;
+  display: inline;
+  filter: grayscale(1);
+  transition: var(--transition-1);
+}
 
- .mbti-content img:hover { filter: grayscale(0); }
+.mbti-content img:hover { filter: grayscale(0); }
 
 /**
  * #clients 
