@@ -63,7 +63,7 @@
   --smoky-black: hsl(0, 0%, 7%);
   --white-1: hsl(0, 0%, 100%);
   --white-2: hsl(0, 0%, 98%);
-  --orange-yellow-crayola: hsl(190.9deg 100% 85.33%);
+  --orange-yellow-crayola: hsl(190.9deg 100% 83.61%);
   --vegas-gold: hsl(219.76deg 100% 77.66%);
   --light-gray: hsl(0, 0%, 84%);
   --light-gray-70: hsla(0, 0%, 84%, 0.7);
@@ -159,9 +159,9 @@ input, textarea {
 html { font-family: monospace; }
 
 body { 
-  background-image: url('../images/bg.jpg');
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url('../images/bg6.jpg');
+  background-size: auto;
+  /* background-repeat: no-repeat */
 }
 
 
@@ -174,7 +174,7 @@ body {
 
 .sidebar,
 article {
-  background: rgb(0 0 0 / 70%);
+  background: rgb(0 0 0 /85%);
   border: 1px solid var(--jet);
   border-radius: 20px;
   padding: 15px;
@@ -474,7 +474,7 @@ main {
 }
 
 .social-item .social-link {
-  color: hsl(202.67deg 100% 84.74%);
+  color: hsl(0, 0%, 90%);
   font-size: 20px;
 }
 
@@ -541,7 +541,11 @@ main {
   font-family: monospace;
 }
 
-.about-text p { margin-bottom: 15px; }
+.about-text p { 
+  margin-bottom: 15px;
+  text-align: justify;
+  text-justify: auto;
+}
 
 
 
@@ -605,6 +609,23 @@ main {
   font-family: monospace;
 }
 
+.h3.h3.award-sub p {
+  font-size: 12px;
+  display: inline;
+  font-weight: 100;
+}
+
+h4.h4.timeline-item-title img {
+  width: 20px;
+  height: 20px;
+  display: inline;
+  vertical-align: middle;
+}
+
+.h3.h3.award-sub img {
+  height: 20px;
+  display: inline;
+}
 
 /**
  * #testimonials 
@@ -771,6 +792,29 @@ main {
   line-height: 1.6;
 }
 
+/**
+ * #mbti 
+ */
+.mbti { margin-bottom: 15px; }
+ 
+h3.h3.mbti-title {
+  margin-bottom: 30px;
+}
+
+.mbti-content {
+  color: white;
+  font-size: 14px;
+}
+ 
+.mbti-content img {
+  height: 150px;
+  display: inline;
+  vertical-align: middle;
+  filter: grayscale(1);
+  transition: var(--transition-1);
+}
+
+.mbti-content img:hover { filter: grayscale(0); }
 
 /**
  * #clients 
@@ -815,6 +859,12 @@ main {
 \*-----------------------------------*/
 
 .article-title { margin-bottom: 30px; }
+
+.article-title img {
+  width: 20px;
+  height: 20px;
+  display: inline;
+}
 
 
 /**
