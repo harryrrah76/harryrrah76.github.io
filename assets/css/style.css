@@ -156,7 +156,7 @@ input, textarea {
 
 :focus { outline-color: var(--orange-yellow-crayola); }
 
-html { font-family: monospace; }
+html { font-family: var(--ff-poppins); }
 
 body { 
   background-image: url('../images/bg6.jpg');
@@ -233,6 +233,7 @@ article.active {
 .h5 {
   color: var(--white-2);
   text-transform: capitalize;
+  font-family: var(--ff-poppins);
 }
 
 .h2 {
