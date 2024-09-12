@@ -140,10 +140,12 @@ for (let i = 0; i < formInputs.length; i++) {
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
-// add event to all nav links
+// Add event to all nav links
 navigationLinks.forEach((navLink) => {
   navLink.addEventListener("click", function () {
-    // Remove active class from all pages and nav links
+    const targetPage = this.textContent.toLowerCase().trim();
+
+    // Remove "active" class from all pages and links
     pages.forEach((page) => {
       page.classList.remove("active");
     });
@@ -151,15 +153,16 @@ navigationLinks.forEach((navLink) => {
       link.classList.remove("active");
     });
 
-    // Add active class to the clicked nav link and its corresponding page
-    const targetPage = this.innerHTML.toLowerCase();
-    pages.forEach((page) => {
-      if (page.dataset.page === targetPage) {
-        page.classList.add("active");
-      }
-    });
+    // Add "active" class to the selected page and link
+    const matchedPage = Array.from(pages).find(
+      (page) => page.dataset.page === targetPage
+    );
+
+    if (matchedPage) {
+      matchedPage.classList.add("active");
+    }
     this.classList.add("active");
-    
+
     // Scroll to the top of the page
     window.scrollTo(0, 0);
   });
