@@ -140,20 +140,27 @@ for (let i = 0; i < formInputs.length; i++) {
 const navigationLinks = document.querySelectorAll("[data-nav-link]");
 const pages = document.querySelectorAll("[data-page]");
 
-// add event to all nav link
-for (let i = 0; i < navigationLinks.length; i++) {
-  navigationLinks[i].addEventListener("click", function () {
+// add event to all nav links
+navigationLinks.forEach((navLink) => {
+  navLink.addEventListener("click", function () {
+    // Remove active class from all pages and nav links
+    pages.forEach((page) => {
+      page.classList.remove("active");
+    });
+    navigationLinks.forEach((link) => {
+      link.classList.remove("active");
+    });
 
-    for (let i = 0; i < pages.length; i++) {
-      if (this.innerHTML.toLowerCase() === pages[i].dataset.page) {
-        pages[i].classList.add("active");
-        navigationLinks[i].classList.add("active");
-        window.scrollTo(0, 0);
-      } else {
-        pages[i].classList.remove("active");
-        navigationLinks[i].classList.remove("active");
+    // Add active class to the clicked nav link and its corresponding page
+    const targetPage = this.innerHTML.toLowerCase();
+    pages.forEach((page) => {
+      if (page.dataset.page === targetPage) {
+        page.classList.add("active");
       }
-    }
-
+    });
+    this.classList.add("active");
+    
+    // Scroll to the top of the page
+    window.scrollTo(0, 0);
   });
-}
+});
