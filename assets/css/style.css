@@ -1002,7 +1002,7 @@ h3.h3.mbti-title {
   #PORTFOLIO
 \*-----------------------------------*/
 
-.filter-list { display: none; }
+/* .filter-list { display: none; }
 
 .filter-select-box {
   position: relative;
@@ -1152,7 +1152,7 @@ h3.h3.mbti-title {
   color: var(--light-gray-70);
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
-}
+} */
 
 
 
@@ -1162,7 +1162,7 @@ h3.h3.mbti-title {
   #BLOG
 \*-----------------------------------*/
 
-.blog-posts { margin-bottom: 10px; }
+/* .blog-posts { margin-bottom: 10px; }
 
 .blog-posts-list {
   display: grid;
@@ -1241,7 +1241,7 @@ h3.h3.mbti-title {
   font-weight: var(--fw-300);
   line-height: 1.6;
   font-family: sans-serif;
-}
+} */
 
 
 
@@ -1376,8 +1376,8 @@ textarea.form-input::-webkit-resizer { display: none; }
    * #PORTFOLIO, BLOG 
    */
 
-  .project-img,
-  .blog-banner-box { height: auto; }
+  /* .project-img,
+  .blog-banner-box { height: auto; } */
 
 }
 
@@ -1635,11 +1635,11 @@ textarea.form-input::-webkit-resizer { display: none; }
    * #PORTFOLIO, BLOG
    */
 
-  .project-img, .blog-banner-box { border-radius: 16px; }
+  /* .project-img, .blog-banner-box { border-radius: 16px; }
 
   .blog-posts-list { gap: 30px; }
 
-  .blog-content { padding: 25px; }
+  .blog-content { padding: 25px; } */
 
 
 
@@ -1728,7 +1728,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * PORTFOLIO
    */
 
-  .article-title { padding-bottom: 20px; }
+  /* .article-title { padding-bottom: 20px; }
 
   .filter-select-box { display: none; }
 
@@ -1749,11 +1749,11 @@ textarea.form-input::-webkit-resizer { display: none; }
 
   .filter-item button:hover { color: var(--light-gray-70); }
 
-  .filter-item button.active { color: var(--orange-yellow-crayola); }
+  .filter-item button.active { color: var(--orange-yellow-crayola); } */
 
   /* portfolio and blog grid */
 
-  .project-list, .blog-posts-list { grid-template-columns: 1fr 1fr; }
+  /* .project-list, .blog-posts-list { grid-template-columns: 1fr 1fr; } */
 
 
 
@@ -1873,7 +1873,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * PORTFOLIO
    */
 
-  .project-list { grid-template-columns: repeat(3, 1fr); }
+  /* .project-list { grid-template-columns: repeat(3, 1fr); } */
 
 
 
@@ -1881,7 +1881,7 @@ textarea.form-input::-webkit-resizer { display: none; }
    * BLOG
    */
 
-  .blog-banner-box { height: 230px; }
+  /* .blog-banner-box { height: 230px; } */
 
 }
 
