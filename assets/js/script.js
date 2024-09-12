@@ -143,7 +143,7 @@ const pages = document.querySelectorAll("[data-page]");
 // Add event to all nav links
 navigationLinks.forEach((navLink) => {
   navLink.addEventListener("click", function () {
-    const targetPage = this.textContent.toLowerCase().trim();
+    const targetPage = this.getAttribute("data-nav-link");
 
     // Remove "active" class from all pages and links
     pages.forEach((page) => {
@@ -154,9 +154,7 @@ navigationLinks.forEach((navLink) => {
     });
 
     // Add "active" class to the selected page and link
-    const matchedPage = Array.from(pages).find(
-      (page) => page.dataset.page === targetPage
-    );
+    const matchedPage = document.querySelector(`[data-page="${targetPage}"]`);
 
     if (matchedPage) {
       matchedPage.classList.add("active");
