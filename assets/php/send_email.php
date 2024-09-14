@@ -1,12 +1,12 @@
 <?php
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Collect form data
-    $fullname = htmlspecialchars($_POST['fullname']);
-    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);
-    $message = htmlspecialchars($_POST['message']);
+if ($_SERVER["REQUEST_METHOD"] == "GET") {
+    // Collect form data from GET request
+    $fullname = htmlspecialchars($_GET['fullname']);
+    $email = filter_var($_GET['email'], FILTER_SANITIZE_EMAIL);
+    $message = htmlspecialchars($_GET['message']);
 
     // Email configuration
-    $to = "harryrrah0706@gmail.com";  // Replace with your email address
+    $to = "your-email@example.com"; // Replace with your email address
     $subject = "New Contact Form Submission";
     $headers = "From: $email\r\n";
     $headers .= "Reply-To: $email\r\n";
