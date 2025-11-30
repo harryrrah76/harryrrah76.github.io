@@ -21,7 +21,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            /* 背景图设置 */
+            /* 背景图设置: 请确保 fuji.jpg 在同一目录下 */
             background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fuji.jpg');
             background-size: cover;
             background-position: center;
@@ -199,29 +199,27 @@
         /* --- 核心修改：平滑展开/收起 --- */
         .card-details {
             max-height: 0;
-            opacity: 0; /* 默认不可见 */
+            opacity: 0; 
             overflow: hidden;
-            /* 关键点：对 margin, padding, border-color, opacity, max-height 全部进行过渡 */
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            
             margin-top: 0;
             padding-top: 0;
-            border-top: 1px solid transparent; /* 边框初始透明 */
-            
+            border-top: 1px solid transparent; 
             color: #ddd;
             font-size: 0.95rem;
         }
 
         .card.active .card-details {
-            max-height: 1200px; /* 稍微加大一点确保装得下 */
-            opacity: 1; /* 内容浮现 */
+            max-height: 2000px; /* 加大高度以适应详细内容 */
+            opacity: 1; 
             margin-top: 20px;
             padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1); /* 边框颜色显现 */
+            border-top: 1px solid rgba(255,255,255,0.1); 
         }
 
-        .card-details ul { padding-left: 20px; }
+        .card-details ul { padding-left: 20px; margin-bottom: 15px; }
         .card-details li { margin-bottom: 8px; }
+        .card-details strong { color: #fff; display: block; margin-top: 15px; margin-bottom: 5px; }
 
         /* --- 5. 技能区域 --- */
         .skills-grid {
@@ -307,16 +305,36 @@
                         <div>
                             <div class="role">Graduate Engineer</div>
                             <div class="company">Arm (System MMU Team)</div>
-                            <span class="location">Manchester, UK</span>
+                            <span class="location">Manchester, United Kingdom</span>
                         </div>
-                        <div class="date">Sep 2024 - Present</div>
+                        <div class="date">Sep. 2024 – Present</div>
                     </div>
                     <div class="card-details">
+                        <strong>RTL Design Role</strong>
                         <ul>
-                            <li><strong>RTL Design:</strong> Redesigned shared RTL modules (parity-protected registers, reset-sampling logic). Verified with SVA and Formality LEC.</li>
-                            <li><strong>Synthesis & Timing:</strong> Performed synthesis analysis to identify critical-path bottlenecks and optimize frequency.</li>
-                            <li><strong>Formal Verification:</strong> Designed 3 formal testbenches from scratch, discovering 14 functional bugs missed by dynamic verification. Root-caused failing properties to reduce designer debug time.</li>
-                            <li><strong>Tooling:</strong> Developed Python tools to scan codebase for parameter usage and remove redundancies.</li>
+                            <li>Redesigned shared RTL modules, including parity-protected registers and custom delay reset-sampling logic.</li>
+                            <li>Verified correctness with designer SVA assertions and Formality LEC.</li>
+                            <li>Performed synthesis using standard-cell libraries with different voltage thresholds and analyzed timing/area trade-offs to determine achievable frequency and identify critical-path bottlenecks.</li>
+                            <li>Exposure to low-power techniques including state-retention and clock-gating strategies while participating in cache microarchitecture design meetings.</li>
+                            <li>Developed a module instantiation analysis Python tool to scan the codebase and report port/parameter usage in each instantiation of the same module.</li>
+                            <li>Analysed parameter usage and removed redundant parameters.</li>
+                            <li>Created three JasperGold custom linting rules using TCL to flag non-compliant coding patterns.</li>
+                            <li>Updated standard RTL components (e.g. logic gates, n-depth synchroniser, clock-gating cells) in SMMU to align with Arm-wide design conventions, gaining exposure to CDC methodologies and standardized design practices.</li>
+                        </ul>
+
+                        <strong>Formal Verification Role</strong>
+                        <ul>
+                            <li>Designed and brought up three formal testbenches from scratch for previously unverified blocks in SMMU and discovered 14 functional RTL bugs that dynamic verification missed.</li>
+                            <li>Independently root-caused failing formal properties, identifying underlying RTL issues before handing-off to designers, reducing designer debug time.</li>
+                            <li>Maintained and stabilized two inherited formal testbenches, cleaning unreachable properties, resolving over-constraints, and improving abstraction models for complex data and control paths.</li>
+                            <li>Familiar with formal techniques including bounded coverage analysis, COI/Proofcore coverage analysis, X-propagation checking and proof-depth tuning.</li>
+                            <li>Integrated formal testbenches with dynamic simulations, debugging and resolving over-constrained properties to ensure formal models accurately reflect hardware behavior.</li>
+                        </ul>
+
+                        <strong>Additional Responsibilities</strong>
+                        <ul>
+                            <li>Served as internal Out-of-Box reviewer for three product release sign-offs.</li>
+                            <li>Reviewed documentation, installation flows, and testbench usage guides to improve clarity before customer delivery.</li>
                         </ul>
                     </div>
                 </div>
@@ -328,16 +346,18 @@
                     <div class="card-header">
                         <div>
                             <div class="role">Research Intern</div>
-                            <div class="company">Huawei Technologies R&D</div>
-                            <span class="location">Edinburgh, UK</span>
+                            <div class="company">Huawei Technologies Research & Development (UK) Ltd</div>
+                            <span class="location">Edinburgh, United Kingdom</span>
                         </div>
-                        <div class="date">Apr 2024 - Aug 2024</div>
+                        <div class="date">Apr. 2024 – Aug. 2024</div>
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Developed a Python-based Gem5 checkpointing tool to extract hardware simulation statistics (TLB/cache hits, latency).</li>
-                            <li>Automated the restoration of multiple checkpoints and launching of Gem5 simulations.</li>
-                            <li>Created Linux root file systems and kernel images for QEMU and Gem5 environments.</li>
+                            <li>Developed a Python-based Gem5 checkpointing tool that extracts hardware simulation statistics such as TLB and cache hits, memory access latency, and bandwidth to support CPU memory management research.</li>
+                            <li>Generated checkpoints using simple CPU models after launching client-server applications (Redis, MySQL) in Gem5, enabling researchers to restore checkpoints with complex CPU models for simulations that provide more fine-grained statistics.</li>
+                            <li>Enhanced the tool to parallelize the restoration of multiple checkpoints and automate launching multiple Gem5 simulations with a variety of boot configuration and set-ups.</li>
+                            <li>Worked on restoring QEMU-based checkpoints using Gem5 CPU models.</li>
+                            <li>Created Linux root file systems, disk images, and kernels for both QEMU and Gem5 environments.</li>
                         </ul>
                     </div>
                 </div>
@@ -349,16 +369,19 @@
                     <div class="card-header">
                         <div>
                             <div class="role">Hardware Engineering Intern</div>
-                            <div class="company">Arm (SMMU Team)</div>
-                            <span class="location">Manchester, UK</span>
+                            <div class="company">Arm (SMMU Design Team)</div>
+                            <span class="location">Manchester, United Kingdom</span>
                         </div>
-                        <div class="date">Jul 2023 - Mar 2024</div>
+                        <div class="date">Jul. 2023 – Mar. 2024</div>
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Contributed to a Python-based register generation workflow, eliminating manual coding for 40+ blocks.</li>
-                            <li>Developed reusable SystemVerilog templates for RTL and UVM coverage generation.</li>
-                            <li>Refactored workflow tools reducing auto-generation time by 20%.</li>
+                            <li>Interned with the System Memory Management Unit (SMMU) Design Team.</li>
+                            <li>Contributed to a Python-based register generation workflow that automatically produces RTL design for configuration register host blocks and corresponding UVM coverage file, eliminating redundant and error-prone manual coding for register verification.</li>
+                            <li>Developed four reusable SystemVerilog templates that can be fed into the workflow to generate RTL for 40+ register host blocks, along with coverpoints using various bin types and cross coverage to ensure all register values are exercised.</li>
+                            <li>Developed a new feature that enables designer adding custom register field guarding conditions that can be picked up by the flow and incorporate into RTL.</li>
+                            <li>Refactored part of the flow which reduced auto-generation time by at least 20%.</li>
+                            <li>Participated in technical design and timing review discussions, gaining exposure to industry-standard best practices.</li>
                         </ul>
                     </div>
                 </div>
@@ -370,16 +393,18 @@
                     <div class="card-header">
                         <div>
                             <div class="role">Research Intern</div>
-                            <div class="company">Huawei Technologies R&D</div>
-                            <span class="location">Cambridge, UK</span>
+                            <div class="company">Huawei Technologies Research & Development (UK) Ltd</div>
+                            <span class="location">Cambridge, United Kingdom</span>
                         </div>
-                        <div class="date">Feb 2023 - Jun 2023</div>
+                        <div class="date">Feb. 2023 – Jun. 2023</div>
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Designed CI/CD pipelines from scratch using GitLab CI and Jenkins.</li>
-                            <li>Deployed a Kubernetes cluster for regression jobs to improve resource efficiency.</li>
-                            <li>Built a Python/Pandas tool to visualize LLVM testsuite regression statistics.</li>
+                            <li>Designed and implemented CI/CD pipelines from scratch for the Team using GitLab CI and Jenkins.</li>
+                            <li>Improved computational resource efficiency by deploying a Kubernetes machine cluster for running regression jobs.</li>
+                            <li>Built and customized Docker images for multiple test environments and integrated them into the Kubernetes cluster.</li>
+                            <li>Developed Jenkins pipelines for nightly, merge requests, and sanity regressions, and utilized Jenkins plugins for cross-pipeline triggering and automated email notifications.</li>
+                            <li>Created a Python-based test report generation tool with Pandas to parse LLVM testsuite logs, delivering visualized regression statistics via a variety of charts and graphs.</li>
                         </ul>
                     </div>
                 </div>
@@ -396,13 +421,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <div class="role">MSc High Performance Computing</div>
+                            <div class="role">Master’s Degree in High Performance Computing</div>
                             <div class="company">University of Edinburgh</div>
                         </div>
-                        <div class="date">2023 - 2024</div>
+                        <div class="date">Sep. 2023 – Aug. 2024</div>
                     </div>
                     <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        <p>Grade: Merit. Member of TeamEPCC (ISC Student Cluster Competition in Germany).</p>
+                        <p>Grade: Merit. Member of TeamEPCC - Participated in the International Supercomputing Conference (ISC) Student Cluster Competition (SCC), held in Germany at May 2024.</p>
                     </div>
                 </div>
             </div>
@@ -411,10 +436,10 @@
                 <div class="card">
                     <div class="card-header">
                         <div>
-                            <div class="role">BEng Electrical & Electronic Engineering</div>
+                            <div class="role">Bachelor’s Degree in Electrical and Electronic Engineering</div>
                             <div class="company">University of Bristol</div>
                         </div>
-                        <div class="date">2019 - 2023</div>
+                        <div class="date">Sep. 2019 – Jun. 2023</div>
                     </div>
                     <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
                         <p>Grade: Second Class Honours (First Division).</p>
@@ -443,7 +468,7 @@
         <p>Get in touch</p>
         <div class="social-links" style="margin: 20px 0;">
             <a href="mailto:harryrrah0706@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/zihao-1-6164771bb/" target="_blank">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/zihao-l-6164771bb/" target="_blank">LinkedIn</a>
         </div>
         <p>&copy; 2025 Zihao (Harry) Liu.</p>
     </footer>
