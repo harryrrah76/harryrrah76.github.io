@@ -10,8 +10,10 @@
             --text-primary: #f5f5f7;
             --text-secondary: #a1a1a6;
             --accent-color: #2997ff;
+            --error-color: #ff453a; 
             --card-bg: rgba(0, 0, 0, 0.65); 
             --blur-strength: 20px;
+            --divider-color: rgba(255, 255, 255, 0.1);
         }
 
         html {
@@ -21,51 +23,112 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            /* 背景图设置: 请确保 fuji.jpg 在同一目录下 */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fuji.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-            
+            /* 背景图设置 */
+            background-color: #000;
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
             line-height: 1.6;
             overflow-x: hidden;
         }
 
+        /* 独立的背景层，用于开场淡入动画 */
+        #fuji-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fuji.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -2; 
+            opacity: 0; 
+            animation: fadeInBg 2.5s ease forwards;
+        }
+
+        @keyframes fadeInBg {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 
-        /* --- 2. 导航栏 --- */
-        nav {
-            position: fixed;
-            top: 0;
+        /* --- Section Divider --- */
+        .section-divider {
             width: 100%;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            background: rgba(0, 0, 0, 0.2); 
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            max-width: 800px;
+            margin: 0 auto;
+            height: 1px;
+            background-color: var(--divider-color);
+            border: none;
         }
 
-        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        
-        .nav-links a {
-            color: var(--text-primary);
-            text-decoration: none;
-            margin-left: 30px;
-            font-size: 0.9rem;
-            opacity: 0.8;
-            transition: opacity 0.3s ease;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        /* --- 2. Smart Floating Navigation (Capsule) --- */
+        .floating-nav {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1000;
+            
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            padding: 5px;
+            
+            display: flex;
+            gap: 5px; 
+            align-items: center;
+            
+            transition: top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .nav-links a:hover { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        .floating-nav.visible {
+            top: 20px;
+        }
+
+        .floating-nav a {
+            position: relative;
+            z-index: 2; 
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 30px;
+            transition: color 0.3s;
+            white-space: nowrap;
+        }
+
+        .floating-nav a:hover {
+            color: #fff;
+        }
+
+        .floating-nav a.active {
+            color: #fff; 
+        }
+
+        /* The Sliding Indicator */
+        .nav-indicator {
+            position: absolute;
+            top: 5px; 
+            bottom: 5px;
+            left: 0;
+            width: 0; 
+            background: linear-gradient(90deg, rgba(41, 151, 255, 0.8), rgba(175, 82, 222, 0.8));
+            border-radius: 30px;
+            z-index: 1; 
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            box-shadow: 0 2px 10px rgba(41, 151, 255, 0.3);
+            backdrop-filter: blur(5px);
+            opacity: 0; 
+        }
 
         /* --- 3. Hero 区域 --- */
         .hero {
@@ -76,238 +139,355 @@
             align-items: center;
             text-align: center;
             padding: 0 20px;
-            opacity: 0; 
-            transform: translateY(20px);
-            animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            position: relative;
         }
+
+        .h1-wrapper { display: inline-block; }
 
         h1 {
             font-size: clamp(3rem, 8vw, 6rem);
             font-weight: 700;
             letter-spacing: -2px;
-            margin-bottom: 20px;
+            margin-bottom: 0; 
+            display: inline; 
             background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .typewriter {
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            color: rgba(255, 255, 255, 0.9);
-            min-height: 1.6em;
-            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
-        }
-
         .cursor {
             display: inline-block;
-            width: 2px;
-            height: 1.2em;
+            width: 4px; 
+            height: clamp(3rem, 8vw, 6rem); 
             background-color: var(--accent-color);
-            margin-left: 5px;
+            margin-left: 10px;
             animation: blink 1s infinite;
-            vertical-align: middle;
+            vertical-align: sub; 
         }
+        .cursor.stopped { display: none; }
 
-        /* --- 4. 简历时间轴 --- */
-        .section {
-            padding: 100px 20px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 60px;
-            text-align: center;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 40px;
-        }
-
-        .timeline::before {
-            content: '';
+        .scroll-indicator {
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 2px;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.2);
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0; 
+            animation: fadeInArrow 2s ease forwards 2.5s; 
+            cursor: pointer;
+            text-decoration: none; 
+            padding: 20px; 
         }
 
-        .timeline-item {
-            position: relative;
-            margin-bottom: 60px;
+        .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            transform: rotate(45deg);
+            margin: -5px;
+            animation: scrollBounce 2s infinite;
+        }
+
+        .scroll-arrow:nth-child(2) { animation-delay: 0.2s; }
+        .scroll-arrow:nth-child(3) { animation-delay: 0.4s; }
+
+        /* --- 3.5 Navigation Hub (Bento Style) --- */
+        .nav-hub {
+            height: 100vh; 
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .nav-question {
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 40px;
+            min-height: 1.5em;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr); 
+            grid-template-rows: auto; 
+            gap: 20px;
+            width: 100%;
+            max-width: 900px;
             opacity: 0; 
             transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+        .nav-grid.visible { opacity: 1; transform: translateY(0); }
 
-        .timeline-dot {
-            position: absolute;
-            left: -46px;
-            top: 0;
-            width: 14px;
-            height: 14px;
-            background: #000;
-            border: 2px solid rgba(255,255,255,0.6);
-            border-radius: 50%;
-            transition: border-color 0.3s, background 0.3s;
-        }
-
-        .timeline-item:hover .timeline-dot {
-            border-color: var(--accent-color);
-            background: var(--accent-color);
-            box-shadow: 0 0 15px rgba(41, 151, 255, 0.8);
-        }
-
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+        .nav-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
             padding: 30px;
-            border-radius: 18px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-            transition: transform 0.3s, background 0.3s;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .card:hover {
-            background: rgba(44, 44, 46, 0.9);
-            transform: scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .card-header {
+            text-decoration: none;
+            color: #fff;
             display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            flex-wrap: wrap;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+            overflow: hidden;
         }
 
+        .nav-card.experience { grid-column: span 3; } 
+        .nav-card.education { grid-column: span 3; } 
+        .nav-card.skills { grid-column: span 2; } 
+        .nav-card.mbti { grid-column: span 2; } 
+        .nav-card.hobbies { grid-column: span 2; } 
+        .nav-card.contact { grid-column: span 6; }
+
+        .nav-card svg {
+            width: 40px;
+            height: 40px;
+            fill: rgba(255,255,255,0.7);
+            transition: fill 0.3s;
+        }
+
+        .nav-card span {
+            font-size: 1.1rem;
+            font-weight: 500;
+            z-index: 2;
+        }
+
+        .nav-card:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .nav-card.experience:hover svg { fill: #AF52DE; filter: drop-shadow(0 0 8px #AF52DE); }
+        .nav-card.education:hover svg { fill: #30B0C7; filter: drop-shadow(0 0 8px #30B0C7); }
+        .nav-card.skills:hover svg { fill: #2997FF; filter: drop-shadow(0 0 8px #2997FF); }
+        .nav-card.mbti:hover svg { fill: #4298B4; filter: drop-shadow(0 0 8px #4298B4); }
+        .nav-card.hobbies:hover svg { fill: #FF9500; filter: drop-shadow(0 0 8px #FF9500); }
+        .nav-card.contact:hover svg { fill: #34C759; filter: drop-shadow(0 0 8px #34C759); }
+
+        @media (max-width: 768px) {
+            .nav-grid { display: flex; flex-direction: column; }
+        }
+
+        /* --- Shared Section Styles --- */
+        .section { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
+        
+        .section-title-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 60px;
+        }
+        .section-title { font-size: 2.5rem; text-align: center; text-shadow: 0 4px 10px rgba(0,0,0,0.5); margin-bottom: 0; }
+        
+        #contact .section-title { margin-bottom: 100px; }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .download-btn svg { width: 20px; height: 20px; fill: var(--text-primary); }
+        .download-btn:hover { background: var(--accent-color); transform: scale(1.1); border-color: var(--accent-color); }
+
+        /* Timeline & Cards */
+        .timeline { position: relative; padding-left: 40px; }
+        .timeline::before { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: rgba(255, 255, 255, 0.2); }
+        .timeline-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+        .timeline-dot { position: absolute; left: -46px; top: 0; width: 14px; height: 14px; background: #000; border: 2px solid rgba(255,255,255,0.6); border-radius: 50%; transition: border-color 0.3s, background 0.3s; }
+        .timeline-item:hover .timeline-dot { border-color: var(--accent-color); background: var(--accent-color); box-shadow: 0 0 15px rgba(41, 151, 255, 0.8); }
+        .card { background: var(--card-bg); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); padding: 30px; border-radius: 18px; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer; transition: transform 0.3s, background 0.3s; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .card:hover { background: rgba(44, 44, 46, 0.9); transform: scale(1.02); border-color: rgba(255, 255, 255, 0.2); }
+        .card-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; }
         .role { font-size: 1.3rem; font-weight: 600; color: #fff; }
         .company { color: var(--text-secondary); margin-top: 5px; font-size: 1.1rem;}
         .date { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;}
         .location { font-size: 0.8rem; color: #888; display: block; margin-top: 2px;}
-
-        /* --- 核心修改：平滑展开/收起 --- */
-        .card-details {
-            max-height: 0;
-            opacity: 0; 
-            overflow: hidden;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 0;
-            padding-top: 0;
-            border-top: 1px solid transparent; 
-            color: #ddd;
-            font-size: 0.95rem;
-        }
-
-        .card.active .card-details {
-            max-height: 2000px; /* 加大高度以适应详细内容 */
-            opacity: 1; 
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(255,255,255,0.1); 
-        }
-
+        .card-details { max-height: 0; opacity: 0; overflow: hidden; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); margin-top: 0; padding-top: 0; border-top: 1px solid transparent; color: #ddd; font-size: 0.95rem; }
+        .card.active .card-details { max-height: 2000px; opacity: 1; margin-top: 20px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
         .card-details ul { padding-left: 20px; margin-bottom: 15px; }
         .card-details li { margin-bottom: 8px; }
         .card-details strong { color: #fff; display: block; margin-top: 15px; margin-bottom: 5px; }
 
-        /* --- 5. 技能区域 --- */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 20px;
-        }
+        /* Skills */
+        .skills-container { max-width: 600px; margin: 0 auto; }
+        .skill-item { margin-bottom: 25px; opacity: 0; transform: translateY(20px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .skill-item.visible { opacity: 1; transform: translateY(0); }
+        .skill-info { display: flex; justify-content: space-between; margin-bottom: 8px; font-weight: 500; color: #fff; font-size: 0.95rem; }
+        .progress-bar-bg { width: 100%; height: 10px; background: rgba(255, 255, 255, 0.1); border-radius: 10px; overflow: hidden; backdrop-filter: blur(5px); }
+        .progress-bar-fill { height: 100%; border-radius: 10px; background: linear-gradient(90deg, #2997ff, #af52de); width: 0; transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1); box-shadow: 0 0 10px rgba(175, 82, 222, 0.4); }
+        .skill-item.visible .progress-bar-fill { width: var(--percent); }
 
-        .skill-tag {
-            background: rgba(0,0,0,0.5);
-            border: 1px solid rgba(255,255,255,0.1);
-            backdrop-filter: blur(5px);
-            padding: 15px;
-            text-align: center;
-            border-radius: 12px;
-            font-weight: 500;
-            transition: background 0.3s, transform 0.2s;
-        }
+        /* MBTI */
+        .mbti-container { display: flex; flex-direction: column; align-items: center; margin-bottom: 50px; }
+        .mbti-icon-wrapper { width: 300px; height: 300px; margin-bottom: 20px; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .mbti-icon-wrapper:hover { transform: scale(1.1); }
+        .mbti-icon { width: 100%; height: 100%; object-fit: contain; filter: grayscale(100%) brightness(1.2); transition: filter 0.5s ease; cursor: pointer; }
+        .mbti-icon-wrapper:hover .mbti-icon { filter: grayscale(0%) brightness(1); drop-shadow: 0 0 20px rgba(66, 152, 180, 0.6); }
+        .mbti-label { font-size: 1.5rem; font-weight: 600; margin-top: 10px; color: var(--text-primary); }
+        .mbti-desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px; }
 
-        .skill-tag:hover { 
-            background: rgba(255,255,255,0.15); 
-            transform: translateY(-2px);
+        /* Hobbies Scrollytelling (Adjusted Padding & Spacing) */
+        #hobbies-wrapper { 
+            position: relative; 
+            width: 100%; 
+            z-index: 10; 
+            /* IMPORTANT: Add top padding to match standard sections */
+            padding-top: 100px;
+            padding-bottom: 50px;
         }
-
-        /* --- 6. Footer --- */
-        footer {
-            text-align: center;
-            padding: 50px;
-            color: rgba(255,255,255,0.6);
-            font-size: 0.9rem;
-            border-top: 1px solid rgba(255,255,255,0.1);
-            background: rgba(0,0,0,0.4);
-        }
-
-        .social-links a {
-            color: #fff;
-            margin: 0 10px;
-            text-decoration: none;
-            border-bottom: 1px solid transparent;
-        }
+        .video-background-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
+        .video-background-layer video { width: 100%; height: 100%; object-fit: cover; }
+        body.show-vid-lol #vid-lol-layer { opacity: 1; }
+        body.show-vid-mc #vid-mc-layer { opacity: 1; }
+        body.show-vid-card #vid-card-layer { opacity: 1; }
         
-        .social-links a:hover { border-bottom-color: var(--accent-color); }
+        /* Reduced spacer height for tighter layout */
+        .interest-spacer { height: 10vh; }
+        
+        .interest-item { height: 80vh; display: flex; align-items: center; justify-content: center; opacity: 0.3; transition: opacity 0.5s, transform 0.5s; transform: scale(0.9); }
+        .interest-item.active-interest { opacity: 1; transform: scale(1.1); }
+        .interest-text { font-size: 4rem; font-weight: 800; text-transform: uppercase; -webkit-text-stroke: 2px rgba(255,255,255,0.8); color: transparent; text-shadow: 0 0 30px rgba(0,0,0,0.8); letter-spacing: 5px; }
+
+        /* --- Contact Section --- */
+        .contact-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
+        .social-icons { display: flex; justify-content: center; gap: 40px; margin-top: 20px; }
+        .glass-btn { display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: all 0.4s; text-decoration: none; color: #fff; }
+        .glass-btn:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.15); border-color: rgba(255, 255, 255, 0.3); }
+        .glass-btn svg { width: 35px; height: 35px; fill: currentColor; }
+        .glass-btn.email:hover { color: var(--accent-color); }
+        .glass-btn.linkedin:hover { color: #0077b5; }
+        .map-wrapper { width: 100%; height: 300px; border-radius: 20px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); filter: grayscale(80%) invert(90%) hue-rotate(180deg) brightness(90%); }
+        .map-wrapper iframe { width: 100%; height: 100%; border: 0; }
+        .contact-form { display: flex; flex-direction: column; gap: 25px; background: rgba(255,255,255,0.03); padding: 30px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.05); backdrop-filter: blur(10px); }
+        .form-group { position: relative; width: 100%; }
+        .form-input, .form-textarea { width: 100%; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; color: #fff; font-size: 1rem; font-family: inherit; outline: none; transition: border-color 0.3s; }
+        .form-input:focus, .form-textarea:focus { border-color: var(--accent-color); }
+        .form-textarea { height: 150px; resize: vertical; }
+        .form-input.error, .form-textarea.error { border-color: var(--error-color); animation: shake 0.4s ease-in-out; }
+        .error-msg { position: absolute; top: -22px; left: 5px; font-size: 0.85rem; color: var(--error-color); font-weight: 500; opacity: 0; transform: translateY(5px); transition: all 0.3s ease; pointer-events: none; }
+        .form-input.error + .error-msg, .form-textarea.error + .error-msg { opacity: 1; transform: translateY(0); }
+        .send-btn { background: var(--accent-color); color: white; border: none; padding: 15px 30px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: transform 0.2s, background 0.2s; align-self: flex-end; }
+        .send-btn:hover { background: #147ce5; transform: translateY(-2px); }
+        .send-btn:active { transform: scale(0.98); }
 
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes scrollBounce { 0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); } 40% { transform: translateY(-10px) rotate(45deg); } 60% { transform: translateY(-5px) rotate(45deg); } }
+        @keyframes fadeInArrow { from { opacity: 0; } to { opacity: 0.7; } }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 20%, 60% { transform: translateX(-5px); } 40%, 80% { transform: translateX(5px); } }
 
         @media (max-width: 600px) {
             h1 { font-size: 3rem; }
             .card-header { flex-direction: column; }
             .date { margin-top: 5px; }
+            .contact-grid { gap: 20px; }
+            .interest-text { font-size: 2.5rem; }
+            .nav-grid { display: flex; flex-direction: column; }
+            .mbti-icon-wrapper { width: 200px; height: 200px; }
         }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo">Harry Liu.</div>
-        <div class="nav-links">
-            <a href="#about">About</a>
-            <a href="#experience">Experience</a>
-            <a href="#contact">Contact</a>
-        </div>
+    <div id="fuji-bg"></div>
+
+    <div id="vid-lol-layer" class="video-background-layer"><video muted loop playsinline><source src="lol.mp4" type="video/mp4"></video></div>
+    <div id="vid-mc-layer" class="video-background-layer"><video muted loop playsinline><source src="minecraft.mp4" type="video/mp4"></video></div>
+    <div id="vid-card-layer" class="video-background-layer"><video muted loop playsinline><source src="card.mp4" type="video/mp4"></video></div>
+
+    <nav id="floating-nav" class="floating-nav">
+        <div id="nav-indicator" class="nav-indicator"></div>
+        <a href="#experience">Work Experience</a>
+        <a href="#education">Education</a>
+        <a href="#skills">Skills</a>
+        <a href="#mbti">MBTI</a>
+        <a href="#hobbies">Hobbies</a>
+        <a href="#contact">Contact</a>
     </nav>
 
-    <section class="hero" id="about">
-        <h1>Hello, I'm Harry.</h1>
-        <div class="typewriter-container">
-            <span class="typewriter" id="typewriter"></span><span class="cursor"></span>
+    <section class="hero" id="hero-top">
+        <div class="h1-wrapper">
+            <h1 id="typewriter-h1"></h1><span id="cursor" class="cursor"></span>
         </div>
-        <p style="margin-top: 30px; color: rgba(255,255,255,0.8); max-width: 500px; text-shadow: 0 2px 5px rgba(0,0,0,0.8);">
-            Based in Manchester, UK. Specializing in RTL Design, Formal Verification, and High Performance Computing.
-        </p>
+        <a href="#nav-hub" class="scroll-indicator" title="Scroll Down">
+            <span class="scroll-arrow"></span>
+            <span class="scroll-arrow"></span>
+        </a>
     </section>
 
+    <section class="nav-hub" id="nav-hub">
+        <h2 id="nav-question" class="nav-question"></h2>
+        
+        <div id="nav-grid" class="nav-grid">
+            <a href="#experience" class="nav-card experience">
+                <svg viewBox="0 0 24 24"><path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/></svg>
+                <span>Work Experience</span>
+            </a>
+            <a href="#education" class="nav-card education">
+                <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+                <span>Education</span>
+            </a>
+            <a href="#skills" class="nav-card skills">
+                <svg viewBox="0 0 24 24"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+                <span>Skills</span>
+            </a>
+            <a href="#mbti" class="nav-card mbti">
+                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                <span>MBTI</span>
+            </a>
+            <a href="#hobbies" class="nav-card hobbies">
+                <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm4-3c-.83 0-1.5-.67-1.5-1.5S18.67 9 19.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+                <span>Hobbies</span>
+            </a>
+            <a href="#contact" class="nav-card contact">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>Contact</span>
+            </a>
+        </div>
+    </section>
+
+    <hr class="section-divider">
+
     <section class="section" id="experience">
-        <h2 class="section-title">Work Experience</h2>
+        <div class="section-title-wrapper">
+            <h2 class="section-title" style="margin-bottom: 0;">Work Experience</h2>
+            <a href="Resume.pdf" download class="download-btn" title="Download Resume">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            </a>
+        </div>
         <div class="timeline">
-            
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Graduate Engineer</div>
-                            <div class="company">Arm (System MMU Team)</div>
-                            <span class="location">Manchester, United Kingdom</span>
-                        </div>
-                        <div class="date">Sep. 2024 – Present</div>
+                        <div><div class="role">Graduate Engineer</div><div class="company">Arm</div><span class="location">Manchester, United Kingdom</span></div>
+                        <div class="date">Sep 2024 - Present</div>
                     </div>
                     <div class="card-details">
                         <strong>RTL Design Role</strong>
@@ -321,7 +501,6 @@
                             <li>Created three JasperGold custom linting rules using TCL to flag non-compliant coding patterns.</li>
                             <li>Updated standard RTL components (e.g. logic gates, n-depth synchroniser, clock-gating cells) in SMMU to align with Arm-wide design conventions, gaining exposure to CDC methodologies and standardized design practices.</li>
                         </ul>
-
                         <strong>Formal Verification Role</strong>
                         <ul>
                             <li>Designed and brought up three formal testbenches from scratch for previously unverified blocks in SMMU and discovered 14 functional RTL bugs that dynamic verification missed.</li>
@@ -330,7 +509,6 @@
                             <li>Familiar with formal techniques including bounded coverage analysis, COI/Proofcore coverage analysis, X-propagation checking and proof-depth tuning.</li>
                             <li>Integrated formal testbenches with dynamic simulations, debugging and resolving over-constrained properties to ensure formal models accurately reflect hardware behavior.</li>
                         </ul>
-
                         <strong>Additional Responsibilities</strong>
                         <ul>
                             <li>Served as internal Out-of-Box reviewer for three product release sign-offs.</li>
@@ -339,17 +517,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Research Intern</div>
-                            <div class="company">Huawei Technologies Research & Development (UK) Ltd</div>
-                            <span class="location">Edinburgh, United Kingdom</span>
-                        </div>
-                        <div class="date">Apr. 2024 – Aug. 2024</div>
+                        <div><div class="role">Research Intern</div><div class="company">Huawei Technologies Research & Development (UK) Ltd</div><span class="location">Edinburgh, United Kingdom</span></div>
+                        <div class="date">Apr 2024 - Aug 2024</div>
                     </div>
                     <div class="card-details">
                         <ul>
@@ -362,17 +535,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Hardware Engineering Intern</div>
-                            <div class="company">Arm (SMMU Design Team)</div>
-                            <span class="location">Manchester, United Kingdom</span>
-                        </div>
-                        <div class="date">Jul. 2023 – Mar. 2024</div>
+                        <div><div class="role">Hardware Engineering Intern</div><div class="company">Arm</div><span class="location">Manchester, United Kingdom</span></div>
+                        <div class="date">Jul 2023 - Mar 2024</div>
                     </div>
                     <div class="card-details">
                         <ul>
@@ -386,17 +554,12 @@
                     </div>
                 </div>
             </div>
-
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
                 <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Research Intern</div>
-                            <div class="company">Huawei Technologies Research & Development (UK) Ltd</div>
-                            <span class="location">Cambridge, United Kingdom</span>
-                        </div>
-                        <div class="date">Feb. 2023 – Jun. 2023</div>
+                        <div><div class="role">Research Intern</div><div class="company">Huawei Technologies Research & Development (UK) Ltd</div><span class="location">Cambridge, United Kingdom</span></div>
+                        <div class="date">Feb 2023 - Jun 2023</div>
                     </div>
                     <div class="card-details">
                         <ul>
@@ -409,117 +572,333 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </section>
 
-    <section class="section">
-        <h2 class="section-title">Education</h2>
+    <hr class="section-divider">
+
+    <section class="section" id="education">
+        <div class="section-title-wrapper">
+            <h2 class="section-title" style="margin-bottom: 0;">Education</h2>
+            <a href="Resume.pdf" download class="download-btn" title="Download Resume">
+                <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            </a>
+        </div>
         <div class="timeline">
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="card">
+                <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Master’s Degree in High Performance Computing</div>
-                            <div class="company">University of Edinburgh</div>
-                        </div>
-                        <div class="date">Sep. 2023 – Aug. 2024</div>
+                        <div><div class="role">University of Edinburgh</div><div class="company">Master's Degree in High Performance Computing</div></div>
+                        <div class="date">Sep 2023 - Aug 2024</div>
                     </div>
-                    <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        <p>Grade: Merit. Member of TeamEPCC - Participated in the International Supercomputing Conference (ISC) Student Cluster Competition (SCC), held in Germany at May 2024.</p>
+                    <div class="card-details">
+                        <ul>
+                            <li>Grade: Merit</li>
+                            <li>Member of TeamEPCC - Participated in the International Supercomputing Conference (ISC) Student Cluster Competition (SCC), held in Germany at May 2024.</li>
+                        </ul>
                     </div>
                 </div>
             </div>
             <div class="timeline-item">
                 <div class="timeline-dot"></div>
-                <div class="card">
+                <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div>
-                            <div class="role">Bachelor’s Degree in Electrical and Electronic Engineering</div>
-                            <div class="company">University of Bristol</div>
-                        </div>
-                        <div class="date">Sep. 2019 – Jun. 2023</div>
+                        <div><div class="role">University of Bristol</div><div class="company">Bachelor's Degree in Electrical and Electronic Engineering</div></div>
+                        <div class="date">Sep 2019 - Jun 2023</div>
                     </div>
-                    <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
-                        <p>Grade: Second Class Honours (First Division).</p>
+                    <div class="card-details">
+                        <ul>
+                            <li>Grade: Second Class Honours (First Division)</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="section">
+    <hr class="section-divider">
+
+    <section class="section" id="skills">
         <h2 class="section-title">Skills</h2>
-        <div class="skills-grid">
-            <div class="skill-tag">SystemVerilog</div>
-            <div class="skill-tag">SVA</div>
-            <div class="skill-tag">RTL Design</div>
-            <div class="skill-tag">Formal Verification</div>
-            <div class="skill-tag">Python</div>
-            <div class="skill-tag">C / C++</div>
-            <div class="skill-tag">Linux / Git</div>
-            <div class="skill-tag">Gem5 / QEMU</div>
-            <div class="skill-tag">CI/CD (Jenkins)</div>
+        <div class="skills-container">
+            <div class="skill-item"><div class="skill-info"><span>SystemVerilog</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 90%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>RTL Design</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>Formal Verification</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 85%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>Python</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>C / C++</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 70%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>Linux</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>Git</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 90%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>CI/CD</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
         </div>
     </section>
 
-    <footer id="contact">
-        <p>Get in touch</p>
-        <div class="social-links" style="margin: 20px 0;">
-            <a href="mailto:harryrrah0706@gmail.com">Email</a>
-            <a href="https://www.linkedin.com/in/zihao-l-6164771bb/" target="_blank">LinkedIn</a>
+    <hr class="section-divider">
+
+    <section class="section" id="mbti">
+        <h2 class="section-title">MBTI</h2>
+        <div class="mbti-container">
+            <a href="https://www.16personalities.com/isfj-personality" target="_blank" class="mbti-icon-wrapper" title="Learn about ISFJ">
+                <img src="isfj.svg" alt="ISFJ Avatar" class="mbti-icon" onerror="this.src='https://ui-avatars.com/api/?name=ISFJ&background=4298B4&color=fff&size=150'"> 
+            </a>
+            <div class="mbti-label">ISFJ-A</div>
+            <div class="mbti-desc">Defender Personality</div>
         </div>
-        <p>&copy; 2025 Zihao (Harry) Liu.</p>
-    </footer>
+    </section>
+
+    <hr class="section-divider">
+
+    <div id="hobbies-wrapper">
+        <h2 class="section-title" id="hobbies" style="position: relative; z-index: 20;">Hobbies</h2>
+        <div class="interest-spacer"></div>
+        <div class="interest-item" data-vid="vid-lol"><div class="interest-text">League of Legends</div></div>
+        <div class="interest-item" data-vid="vid-mc"><div class="interest-text">Minecraft</div></div>
+        <div class="interest-item" data-vid="vid-card"><div class="interest-text">Card Flourish</div></div>
+        <div class="interest-spacer"></div>
+    </div>
+
+    <hr class="section-divider">
+
+    <section class="section" id="contact">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-container">
+            <div class="map-wrapper">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2374.303974642456!2d-2.2475479234250266!3d53.48083657231422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb1c2a05d5b7d%3A0x8e87557375363765!2s36%20Jackson's%20Row%2C%20Manchester%20M2%205WD%2C%20UK!5e0!3m2!1sen!2suk!4v1709230000000!5m2!1sen!2suk" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <form class="contact-form" id="contact-form">
+                <div class="form-group">
+                    <input type="text" id="subject" class="form-input" placeholder="Subject">
+                    <span class="error-msg">Please enter a subject</span>
+                </div>
+                <div class="form-group">
+                    <textarea id="message" class="form-textarea" placeholder="Message"></textarea>
+                    <span class="error-msg">Please enter a message</span>
+                </div>
+                <button type="button" class="send-btn" onclick="sendEmail()">Send Message</button>
+            </form>
+            <div class="social-icons">
+                <a href="mailto:harryrrah0706@gmail.com" class="glass-btn email" title="Send Email">
+                    <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                </a>
+                <a href="https://www.linkedin.com/in/zihao-l-6164771bb/" target="_blank" class="glass-btn linkedin" title="LinkedIn Profile">
+                    <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+            </div>
+        </div>
+    </section>
 
     <script>
-        // --- 1. 打字机特效 ---
-        const text = "Hardware Engineer | RTL & Verification";
-        const typewriterElement = document.getElementById('typewriter');
-        let i = 0;
+        // --- 1. Hero Typewriter (Hello) ---
+        const helloText = "Hey there, I'm Harry Liu.";
+        const helloElement = document.getElementById('typewriter-h1');
+        const helloCursor = document.getElementById('cursor');
+        let helloIndex = 0;
 
-        function typeWriter() {
-            if (i < text.length) {
-                typewriterElement.innerHTML += text.charAt(i);
-                i++;
-                setTimeout(typeWriter, 50);
+        function typeHello() {
+            if (helloIndex < helloText.length) {
+                helloElement.innerHTML += helloText.charAt(helloIndex);
+                helloIndex++;
+                setTimeout(typeHello, 100);
+            } else {
+                helloCursor.classList.add('stopped');
             }
         }
         
-        setTimeout(typeWriter, 1000);
+        setTimeout(typeHello, 800);
 
-        // --- 2. 滚动显现特效 ---
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
+        // --- 2. Nav Hub Typewriter ---
+        const navText = "How would you like to know me?";
+        const navElement = document.getElementById('nav-question');
+        const navGrid = document.getElementById('nav-grid');
+        let navIndex = 0;
+        let navTyped = false; 
 
-        const observer = new IntersectionObserver((entries) => {
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !navTyped) {
+                    navTyped = true;
+                    typeNavQuestion();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        navObserver.observe(document.querySelector('.nav-hub'));
+
+        function typeNavQuestion() {
+            if (navIndex < navText.length) {
+                navElement.innerHTML += navText.charAt(navIndex);
+                navIndex++;
+                setTimeout(typeNavQuestion, 50);
+            } else {
+                navGrid.classList.add('visible');
+            }
+        }
+
+        // --- 3. Floating Nav Toggle & Active State ---
+        const floatingNav = document.getElementById('floating-nav');
+        const navHub = document.querySelector('.nav-hub');
+        const navIndicator = document.getElementById('nav-indicator');
+        const sectionsToSpy = [
+            document.getElementById('experience'),
+            document.getElementById('education'),
+            document.getElementById('skills'),
+            document.getElementById('mbti'),
+            document.getElementById('hobbies-wrapper'),
+            document.getElementById('contact')
+        ];
+
+        const navToggleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting && entry.boundingClientRect.top < 0) {
+                    floatingNav.classList.add('visible');
+                } else {
+                    floatingNav.classList.remove('visible');
+                }
+            });
+        }, { threshold: 0, rootMargin: "-50px 0px 0px 0px" });
+
+        navToggleObserver.observe(navHub);
+
+        function updateNavIndicator(activeLink) {
+            if (activeLink) {
+                const navRect = floatingNav.getBoundingClientRect();
+                const linkRect = activeLink.getBoundingClientRect();
+                const left = linkRect.left - navRect.left;
+                
+                navIndicator.style.width = `${linkRect.width}px`;
+                navIndicator.style.transform = `translateX(${left}px)`;
+                navIndicator.style.opacity = '1';
+                
+                document.querySelectorAll('.floating-nav a').forEach(a => a.classList.remove('active'));
+                activeLink.classList.add('active');
+            } else {
+                navIndicator.style.opacity = '0';
+                document.querySelectorAll('.floating-nav a').forEach(a => a.classList.remove('active'));
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            let currentSection = null;
+            
+            sectionsToSpy.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - window.innerHeight/2) && pageYOffset < (sectionTop + sectionHeight - window.innerHeight/2)) {
+                    currentSection = section.getAttribute('id');
+                }
+            });
+
+            if (currentSection === 'hobbies-wrapper') {
+                currentSection = 'hobbies';
+            }
+
+            const activeLink = document.querySelector(`.floating-nav a[href="#${currentSection}"]`);
+            updateNavIndicator(activeLink);
+        });
+
+        window.addEventListener('resize', () => {
+            const activeLink = document.querySelector('.floating-nav a.active');
+            if (activeLink) updateNavIndicator(activeLink);
+        });
+
+
+        // --- 4. Video Reset Logic ---
+        const resetVideoObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    // Reset all videos
+                    document.body.classList.remove('show-vid-lol', 'show-vid-mc', 'show-vid-card');
+                    document.querySelectorAll('video').forEach(v => v.pause());
+                }
+            });
+        }, { threshold: 0.1 });
+
+        resetVideoObserver.observe(document.querySelector('.hero'));
+        resetVideoObserver.observe(navHub);
+        // Also observe MBTI section so video resets when scrolling UP from interests
+        resetVideoObserver.observe(document.getElementById('mbti')); 
+        // Observe Contact to reset when scrolling DOWN past interests
+        resetVideoObserver.observe(document.getElementById('contact'));
+
+
+        // --- 5. Interest Scrollytelling ---
+        const interestItems = document.querySelectorAll('.interest-item');
+        const interestObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.interest-item').forEach(el => el.classList.remove('active-interest'));
+                    entry.target.classList.add('active-interest');
+
+                    const vidId = entry.target.getAttribute('data-vid');
+                    document.body.classList.remove('show-vid-lol', 'show-vid-mc', 'show-vid-card');
+                    
+                    if(vidId === 'vid-lol') document.body.classList.add('show-vid-lol');
+                    if(vidId === 'vid-mc') document.body.classList.add('show-vid-mc');
+                    if(vidId === 'vid-card') document.body.classList.add('show-vid-card');
+
+                    const vidLayer = document.getElementById(vidId + '-layer');
+                    if(vidLayer) {
+                        const vid = vidLayer.querySelector('video');
+                        if(vid) vid.play();
+                    }
+                }
+            });
+        }, {
+            threshold: 0.6,
+            rootMargin: "-20% 0px -20% 0px"
+        });
+
+        interestItems.forEach(item => {
+            interestObserver.observe(item);
+        });
+
+        // --- 6. Scroll Reveal ---
+        const revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
                 }
             });
-        }, observerOptions);
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
 
-        document.querySelectorAll('.timeline-item').forEach(el => {
-            observer.observe(el);
+        document.querySelectorAll('.timeline-item, .skill-item').forEach(el => {
+            revealObserver.observe(el);
         });
 
-        // --- 3. 简历卡片交互 ---
         function toggleCard(card) {
             card.classList.toggle('active');
         }
 
-        // --- 4. 磁吸导航栏 ---
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 50) {
-                nav.style.background = 'rgba(0, 0, 0, 0.5)';
-            } else {
-                nav.style.background = 'rgba(0, 0, 0, 0.2)';
+        // --- 7. Email Form Logic ---
+        function sendEmail() {
+            const subjectInput = document.getElementById('subject');
+            const messageInput = document.getElementById('message');
+            
+            let isValid = true;
+
+            subjectInput.classList.remove('error');
+            messageInput.classList.remove('error');
+
+            if (!subjectInput.value.trim()) {
+                subjectInput.classList.add('error');
+                isValid = false;
             }
+            
+            if (!messageInput.value.trim()) {
+                messageInput.classList.add('error');
+                isValid = false;
+            }
+
+            if (!isValid) return;
+
+            const mailtoLink = `mailto:harryrrah0706@gmail.com?subject=${encodeURIComponent(subjectInput.value)}&body=${encodeURIComponent(messageInput.value)}`;
+            window.location.href = mailtoLink;
+        }
+
+        document.querySelectorAll('.form-input, .form-textarea').forEach(el => {
+            el.addEventListener('input', function() {
+                this.classList.remove('error');
+            });
         });
     </script>
 </body>
