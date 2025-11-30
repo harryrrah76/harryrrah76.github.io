@@ -352,24 +352,15 @@
         .mbti-label { font-size: 1.5rem; font-weight: 600; margin-top: 10px; color: var(--text-primary); }
         .mbti-desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px; }
 
-        /* Hobbies Scrollytelling (Adjusted Padding & Spacing) */
-        #hobbies-wrapper { 
-            position: relative; 
-            width: 100%; 
-            z-index: 10; 
-            /* IMPORTANT: Add top padding to match standard sections */
-            padding-top: 100px;
-            padding-bottom: 50px;
-        }
+        /* Hobbies Scrollytelling */
+        #hobbies-wrapper { position: relative; width: 100%; z-index: 10; padding-top: 100px; padding-bottom: 50px; }
         .video-background-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
         .video-background-layer video { width: 100%; height: 100%; object-fit: cover; }
         body.show-vid-lol #vid-lol-layer { opacity: 1; }
         body.show-vid-mc #vid-mc-layer { opacity: 1; }
         body.show-vid-card #vid-card-layer { opacity: 1; }
         
-        /* Reduced spacer height for tighter layout */
         .interest-spacer { height: 10vh; }
-        
         .interest-item { height: 80vh; display: flex; align-items: center; justify-content: center; opacity: 0.3; transition: opacity 0.5s, transform 0.5s; transform: scale(0.9); }
         .interest-item.active-interest { opacity: 1; transform: scale(1.1); }
         .interest-text { font-size: 4rem; font-weight: 800; text-transform: uppercase; -webkit-text-stroke: 2px rgba(255,255,255,0.8); color: transparent; text-shadow: 0 0 30px rgba(0,0,0,0.8); letter-spacing: 5px; }
@@ -857,6 +848,8 @@
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('visible');
+                } else {
+                    entry.target.classList.remove('visible');
                 }
             });
         }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
