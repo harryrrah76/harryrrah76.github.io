@@ -1,1649 +1,501 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=0.6">
-  <title>Harry's Peronal Webpage</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zihao (Harry) Liu | Hardware Engineer</title>
+    <style>
+        /* --- 1. 全局变量与重置 --- */
+        :root {
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --accent-color: #2997ff;
+            --card-bg: rgba(0, 0, 0, 0.65); 
+            --blur-strength: 20px;
+        }
 
-  <!--
-    - favicon
-  -->
-  <link rel="shortcut icon" href="./assets/images/page_logo.svg" type="image/x-icon">
+        html {
+            scroll-behavior: smooth;
+        }
 
-  <!--
-    - custom css link
-  -->
-  <link rel="stylesheet" href="./assets/css/style.css">
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            /* 背景图设置 */
+            background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('fuji.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+            
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
 
-  <!--
-    - google font link
-  -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-    rel="stylesheet">
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 
+        /* --- 2. 导航栏 --- */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            background: rgba(0, 0, 0, 0.2); 
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .logo { font-weight: 700; font-size: 1.2rem; letter-spacing: -0.5px; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.5);
+        }
+        .nav-links a:hover { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+
+        /* --- 3. Hero 区域 --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            opacity: 0; 
+            transform: translateY(20px);
+            animation: fadeIn 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 700;
+            letter-spacing: -2px;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #ffffff 0%, #888888 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .typewriter {
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: rgba(255, 255, 255, 0.9);
+            min-height: 1.6em;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--accent-color);
+            margin-left: 5px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        /* --- 4. 简历时间轴 --- */
+        .section {
+            padding: 100px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 60px;
+            text-align: center;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 60px;
+            opacity: 0; 
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .timeline-item.visible { opacity: 1; transform: translateY(0); }
+
+        .timeline-dot {
+            position: absolute;
+            left: -46px;
+            top: 0;
+            width: 14px;
+            height: 14px;
+            background: #000;
+            border: 2px solid rgba(255,255,255,0.6);
+            border-radius: 50%;
+            transition: border-color 0.3s, background 0.3s;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            border-color: var(--accent-color);
+            background: var(--accent-color);
+            box-shadow: 0 0 15px rgba(41, 151, 255, 0.8);
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 18px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .card:hover {
+            background: rgba(44, 44, 46, 0.9);
+            transform: scale(1.02);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .role { font-size: 1.3rem; font-weight: 600; color: #fff; }
+        .company { color: var(--text-secondary); margin-top: 5px; font-size: 1.1rem;}
+        .date { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px;}
+        .location { font-size: 0.8rem; color: #888; display: block; margin-top: 2px;}
+
+        /* --- 核心修改：平滑展开/收起 --- */
+        .card-details {
+            max-height: 0;
+            opacity: 0; /* 默认不可见 */
+            overflow: hidden;
+            /* 关键点：对 margin, padding, border-color, opacity, max-height 全部进行过渡 */
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            
+            margin-top: 0;
+            padding-top: 0;
+            border-top: 1px solid transparent; /* 边框初始透明 */
+            
+            color: #ddd;
+            font-size: 0.95rem;
+        }
+
+        .card.active .card-details {
+            max-height: 1200px; /* 稍微加大一点确保装得下 */
+            opacity: 1; /* 内容浮现 */
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255,255,255,0.1); /* 边框颜色显现 */
+        }
+
+        .card-details ul { padding-left: 20px; }
+        .card-details li { margin-bottom: 8px; }
+
+        /* --- 5. 技能区域 --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-tag {
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.1);
+            backdrop-filter: blur(5px);
+            padding: 15px;
+            text-align: center;
+            border-radius: 12px;
+            font-weight: 500;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .skill-tag:hover { 
+            background: rgba(255,255,255,0.15); 
+            transform: translateY(-2px);
+        }
+
+        /* --- 6. Footer --- */
+        footer {
+            text-align: center;
+            padding: 50px;
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0,0,0,0.4);
+        }
+
+        .social-links a {
+            color: #fff;
+            margin: 0 10px;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+        }
+        
+        .social-links a:hover { border-bottom-color: var(--accent-color); }
+
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 3rem; }
+            .card-header { flex-direction: column; }
+            .date { margin-top: 5px; }
+        }
+    </style>
 </head>
-
 <body>
 
-  <!--
-    - #MAIN
-  -->
-
-  <main>
-
-    <!--
-      - #SIDEBAR
-    -->
-
-    <aside class="sidebar" data-sidebar>
-
-      <div class="sidebar-info">
-
-        <figure class="avatar-box">
-          <img class="cropped-image" src="./assets/images/photo.jpg" alt="Harry Liu" width="80">
-        </figure>
-
-        <div class="info-content">
-          <h1 class="name" title="Harry Liu">Harry Liu</h1>
-
-          <p class="title">Graduate Engineer</p>
+    <nav>
+        <div class="logo">Harry Liu.</div>
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#experience">Experience</a>
+            <a href="#contact">Contact</a>
         </div>
-
-        <button class="info_more-btn" data-sidebar-btn>
-          <span>Show Contacts</span>
-
-          <ion-icon name="chevron-down"></ion-icon>
-        </button>
-
-      </div>
-
-      <div class="sidebar-info_more">
-
-        <div class="separator"></div>
-
-        <ul class="contacts-list">
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Email</p>
-
-              <a href="mailto:harryrrah0706@gmail.com" class="contact-link">harryrrah0706@gmail.com</a>
-            </div>
-
-          </li>
-
-          <!-- <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Phone</p>
-
-              <a href="tel:+4407529933910" class="contact-link">+44 07529933910</a>
-            </div>
-
-          </li> -->
-
-          <!-- <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="logo-wechat"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">WeChat</p>
-
-              <address>HaRrYrRaH</address>
-            </div>
-
-          </li> -->
-
-          <!-- <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Birthday</p>
-
-              <time datetime="2021-07-06">July 06, 2001</time>
-            </div>
-
-          </li> -->
-
-          <li class="contact-item">
-
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
-            </div>
-
-            <div class="contact-info">
-              <p class="contact-title">Location</p>
-
-              <address>Manchester, UK</address>
-            </div>
-
-          </li>
-
-        </ul>
-
-        <div class="separator"></div>
-
-        <ul class="social-list">
-
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/zihao-l-6164771bb/" class="social-link" target="_blank">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://github.com/harryrrah76" class="social-link" target="_blank">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://leetcode.com/harryrrah0706/" class="social-link" target="_blank">
-              <img src="./assets/images/leetcode.svg" width="18" height="18">
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://www.instagram.com/harryrrah0706/" class="social-link" target="_blank">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-
-          <li class="social-item">
-            <a href="https://steamcommunity.com/id/harryrrah" class="social-link" target="_blank">
-              <ion-icon name="logo-steam"></ion-icon>
-            </a>
-          </li>
-
-        </ul>
-
-      </div>
-
-    </aside>
-
-
-
-
-
-    <!--
-      - #main-content
-    -->
-
-    <div class="main-content">
-
-      <!--
-        - #NAVBAR
-      -->
-
-      <nav class="navbar">
-
-        <ul class="navbar-list">
-
-          <li class="navbar-item">
-            <button class="navbar-link  active" data-nav-link>About</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Resume</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Portfolio</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Blog</button>
-          </li>
-
-          <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Contact</button>
-          </li>
-
-        </ul>
-
-      </nav>
-
-
-
-
-
-      <!--
-        - #ABOUT
-      -->
-
-      <article class="about  active" data-page="about">
-
-        <header>
-          <h2 class="h2 article-title">About me</h2>
-        </header>
-
-        <section class="about-text">
-          <p>
-            Hi! My name is Zihao Liu (prefer Harry) and I'm a Graduate Engineer at Arm.
-          </p>
-
-          <p>
-            You can find my detailed resume simply by switching to the "Resume" tab.
-          </p>
-
-        </section>
-
-        <section class="mbti">
-
-          <h3 class="h3 mbti-title">My MBTI</h3>
-
-          <p class="mbti-content">
-            <a href="https://www.16personalities.com/profiles/4b1221e3104c8" target="_blank" style="display: inline">
-              <img src="./assets/images/infj-advocate.svg" alt="infj-advocate">
-            </a>
-          </p>
-
-        </section>
-
-        <!--
-          - service
-        -->
-
-        <section class="service">
-
-          <h3 class="h3 service-title" style="margin-top:30px">What I Enjoy Doing</h3>
-
-          <ul class="service-list">
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <ion-icon name="basketball"></ion-icon>
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Sports</h4>
-
-                <p class="service-item-text">
-                  Badminton, football, basketball, squash, volleyball, skiing, and more!
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <ion-icon name="musical-notes"></ion-icon>
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Music</h4>
-
-                <p class="service-item-text">
-                  Plays piano, occasionally self-composes some piano songs that I always forgot to write them down.
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <ion-icon name="game-controller"></ion-icon>
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Gaming</h4>
-
-                <p class="service-item-text">
-                  <b>League of Legends:</b> I'm ADC main, and highest rank reached is Master 450LP in EUW. </br>
-                  <b>Minecraft:</b> I love redstone circuits. My dream is to build my own computer in Minecraft using
-                  redstone!
-                </p>
-              </div>
-
-            </li>
-
-            <li class="service-item">
-
-              <div class="service-icon-box">
-                <ion-icon name="fast-food"></ion-icon>
-              </div>
-
-              <div class="service-content-box">
-                <h4 class="h4 service-item-title">Food</h4>
-
-                <p class="service-item-text">
-                  Loves Chinese Food, Italian Food, Korean Food, Spanish Food... Hmm, actaully there is no food I don't
-                  like.
-                </p>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-
-        <!--
-          - testimonials
-        -->
-
-        <!-- <section class="testimonials">
-
-          <h3 class="h3 testimonials-title">Reading List (IGNORE)</h3>
-
-          <ul class="testimonials-list has-scrollbar">
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Daniel lewis</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
+    </nav>
+
+    <section class="hero" id="about">
+        <h1>Hello, I'm Harry.</h1>
+        <div class="typewriter-container">
+            <span class="typewriter" id="typewriter"></span><span class="cursor"></span>
+        </div>
+        <p style="margin-top: 30px; color: rgba(255,255,255,0.8); max-width: 500px; text-shadow: 0 2px 5px rgba(0,0,0,0.8);">
+            Based in Manchester, UK. Specializing in RTL Design, Formal Verification, and High Performance Computing.
+        </p>
+    </section>
+
+    <section class="section" id="experience">
+        <h2 class="section-title">Work Experience</h2>
+        <div class="timeline">
+            
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">Graduate Engineer</div>
+                            <div class="company">Arm (System MMU Team)</div>
+                            <span class="location">Manchester, UK</span>
+                        </div>
+                        <div class="date">Sep 2024 - Present</div>
+                    </div>
+                    <div class="card-details">
+                        <ul>
+                            <li><strong>RTL Design:</strong> Redesigned shared RTL modules (parity-protected registers, reset-sampling logic). Verified with SVA and Formality LEC.</li>
+                            <li><strong>Synthesis & Timing:</strong> Performed synthesis analysis to identify critical-path bottlenecks and optimize frequency.</li>
+                            <li><strong>Formal Verification:</strong> Designed 3 formal testbenches from scratch, discovering 14 functional bugs missed by dynamic verification. Root-caused failing properties to reduce designer debug time.</li>
+                            <li><strong>Tooling:</strong> Developed Python tools to scan codebase for parameter usage and remove redundancies.</li>
+                        </ul>
+                    </div>
                 </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-2.png" alt="Jessica miller" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Jessica miller</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-3.png" alt="Emily evans" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Emily evans</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-            <li class="testimonials-item">
-              <div class="content-card" data-testimonials-item>
-
-                <figure class="testimonials-avatar-box">
-                  <img src="./assets/images/avatar-4.png" alt="Henry william" width="60" data-testimonials-avatar>
-                </figure>
-
-                <h4 class="h4 testimonials-item-title" data-testimonials-title>Henry william</h4>
-
-                <div class="testimonials-text" data-testimonials-text>
-                  <p>
-                    Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                    lot of experience
-                    and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                    consectetur adipiscing
-                    elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                  </p>
-                </div>
-
-              </div>
-            </li>
-
-          </ul>
-
-        </section> -->
-
-
-        <!--
-          - testimonials modal
-        -->
-
-        <!-- <div class="modal-container" data-modal-container>
-
-          <div class="overlay" data-overlay></div>
-
-          <section class="testimonials-modal">
-
-            <button class="modal-close-btn" data-modal-close-btn>
-              <ion-icon name="close-outline"></ion-icon>
-            </button>
-
-            <div class="modal-img-wrapper">
-              <figure class="modal-avatar-box">
-                <img src="./assets/images/avatar-1.png" alt="Daniel lewis" width="80" data-modal-img>
-              </figure>
-
-              <img src="./assets/images/icon-quote.svg" alt="quote icon">
             </div>
 
-            <div class="modal-content">
-
-              <h4 class="h3 modal-title" data-modal-title>Daniel lewis</h4>
-
-              <time datetime="2021-06-14">14 June, 2021</time>
-
-              <div data-modal-text>
-                <p>
-                  Richard was hired to create a corporate identity. We were very pleased with the work done. She has a
-                  lot of experience
-                  and is very concerned about the needs of client. Lorem ipsum dolor sit amet, ullamcous cididt
-                  consectetur adipiscing
-                  elit, seds do et eiusmod tempor incididunt ut laborels dolore magnarels alia.
-                </p>
-              </div>
-
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">Research Intern</div>
+                            <div class="company">Huawei Technologies R&D</div>
+                            <span class="location">Edinburgh, UK</span>
+                        </div>
+                        <div class="date">Apr 2024 - Aug 2024</div>
+                    </div>
+                    <div class="card-details">
+                        <ul>
+                            <li>Developed a Python-based Gem5 checkpointing tool to extract hardware simulation statistics (TLB/cache hits, latency).</li>
+                            <li>Automated the restoration of multiple checkpoints and launching of Gem5 simulations.</li>
+                            <li>Created Linux root file systems and kernel images for QEMU and Gem5 environments.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-          </section>
-
-        </div> -->
-
-
-        <!--
-          - clients
-        -->
-
-        <!-- <section class="clients">
-
-          <h3 class="h3 clients-title">Clients (IGNORE)</h3>
-
-          <ul class="clients-list has-scrollbar">
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/infj-advocate.svg" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-2-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-3-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-4-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-5-color.png" alt="client logo">
-              </a>
-            </li>
-
-            <li class="clients-item">
-              <a href="#">
-                <img src="./assets/images/logo-6-color.png" alt="client logo">
-              </a>
-            </li>
-
-          </ul>
-
-        </section> -->
-
-      </article>
-
-
-
-
-
-      <!--
-        - #RESUME
-      -->
-
-      <article class="resume" data-page="resume">
-
-        <header>
-          <h2 class="h2 article-title">Resume
-            <a href="./assets/Resume.pdf" style="display: inline" download>
-              <img src="./assets/images/download.svg">
-            </a>
-          </h2>
-        </header>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="book-outline"></ion-icon>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">Hardware Engineering Intern</div>
+                            <div class="company">Arm (SMMU Team)</div>
+                            <span class="location">Manchester, UK</span>
+                        </div>
+                        <div class="date">Jul 2023 - Mar 2024</div>
+                    </div>
+                    <div class="card-details">
+                        <ul>
+                            <li>Contributed to a Python-based register generation workflow, eliminating manual coding for 40+ blocks.</li>
+                            <li>Developed reusable SystemVerilog templates for RTL and UVM coverage generation.</li>
+                            <li>Refactored workflow tools reducing auto-generation time by 20%.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <h3 class="h3">Education</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">2023 - 2024 </span>University of Edinburgh
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">MSc High Performance Computing</h4>
-
-              <ul class="timeline-text">
-                <li>Member of TeamEPCC - Participated in the International Supercomputing Conference (ISC) Student
-                  Cluster Competition (SCC), held in Germany at May 2024.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">2019 - 2023 </span>University of Bristol
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">BEng Electrical and Electronic Engineering</h4>
-
-              <!-- <ul class="timeline-text">
-                <li>Grade: Second Class Honours (First Division).</li>
-              </ul> -->
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">2017 - 2019 </span>Shenzhen College of International Education
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">GCE A-Levels</h4>
-
-              <!-- <ul class="timeline-text">
-                <li>Grade: Computer Science (A*), Mathematics (A*), Physics (A*). Economics (A).</li>
-              </ul> -->
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="document"></ion-icon>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">Research Intern</div>
+                            <div class="company">Huawei Technologies R&D</div>
+                            <span class="location">Cambridge, UK</span>
+                        </div>
+                        <div class="date">Feb 2023 - Jun 2023</div>
+                    </div>
+                    <div class="card-details">
+                        <ul>
+                            <li>Designed CI/CD pipelines from scratch using GitLab CI and Jenkins.</li>
+                            <li>Deployed a Kubernetes cluster for regression jobs to improve resource efficiency.</li>
+                            <li>Built a Python/Pandas tool to visualize LLVM testsuite regression statistics.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
-            <h3 class="h3">Work Experiences</h3>
-          </div>
+        </div>
+    </section>
 
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Sep 2024 - Present </span>Arm</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Graduate Engineer</h4>
-
-              <ul class="timeline-text">
-                <li>Dedication to rotate between 3 to 5 areas within System IP.</li>
-                <li><i>RTL Design</i> - Microarchitecture and logic implementation of interconnect and memory controller
-                  designs.</li>
-                <li><i>Design Verification</i> - Develop sophisticated test bench components to debug next generation
-                  designs with both formal and simulation based methods.</li>
-                <li><i>Physical Design/Implementation</i> - Innovate, develop and deploy the latest implementation
-                  techniques to push the boundaries of power efficiency and influence our physical design library
-                  development.</li>
-                <li><i>Software/Tooling</i> - Build and maintain the software infrastructure to develop and analyze
-                  engineering data and flows.</li>
-                <li><i>Performance Modeling</i> - Drive development of new high-performance interconnect IPs, optimizing
-                  infrastructure systems, and productizing models
-                </li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Apr 2024 - Aug 2024 </span>Huawei</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Research Intern</h4>
-
-              <ul class="timeline-text">
-                <li>Enhanced existing Gem5 checkpointing infrastructure to support CPU research.</li>
-                <li>Generated Gem5 checkpoints for client-server applications (e.g., Redis, MySQL) after reaching a
-                  steady state and initiating query processes using atomic CPUs, enabling restoration with timing CPUs
-                  for further research.</li>
-                <li>Worked on restoring QEMU-based snapshots (checkpoints) using Gem5 atomic and timing CPUs.</li>
-                <li>Developed a Python tool to parallelize the restoration of multiple checkpoints and automate the
-                  launch of multiple Gem5 simulations with identical configurations but varying boot scripts.</li>
-                <li>Created and customized root file systems, disk images, and kernels for QEMU and Gem5.
-                </li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Jul 2023 - Mar 2024 </span>Arm</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Hardware Engineering Intern</h4>
-
-              <ul class="timeline-text">
-                <li>Interned in the System Memory Management Unit (SMMU) Design Team.</li>
-                <li>Worked on an existing Python-based register generation workflow to automate RTL register host block
-                  and UVM functional coverage testbench creation, reducing discrepancies and eliminating redundant,
-                  error-prone coding.</li>
-                <li>Designed four SystemVerilog templates that generated RTL code for 40+ register host blocks and over
-                  100,000 lines of UVM register coverage and model testbenches.</li>
-                <li>Enhanced the workflow by implementing Python scripts to support designer-defined register guarding
-                  conditions and other tool improvements, increasing maintainability.</li>
-                <li>Actively participated in technical discussions on design and timing fixes, gaining insights into
-                  industry best practices.
-                </li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Feb 2023 - Jun 2023 </span>Huawei</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Research Intern</h4>
-
-              <ul class="timeline-text">
-                <li>Designed and implemented CI/CD pipelines from scratch for the Turing Core Team using GitLab CI and
-                  Jenkins.</li>
-                <li>Optimized computational resource allocation by setting up a Kubernetes machine cluster for testing.
-                </li>
-                <li>Customized Docker images for multiple test environments and integrated them into the Kubernetes
-                  cluster.</li>
-                <li>Developed Jenkins pipelines for nightly regression, merge requests, and other workflows, leveraging
-                  plugins for cross-pipeline triggering and email notifications.</li>
-                <li>Created a Python-based test report generation tool using Pandas to analyze LLVM testsuite logs,
-                  providing numerical and graphical regression statistics.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Aug 2022 - Jan 2023 </span>FixMyCrack</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Repair Technician</h4>
-
-              <ul class="timeline-text">
-                <li>Repaired and refurbished mobile devices, including screen and battery replacements for iPhone 6 to
-                  11.</li>
-                <li>Collaborated with technicians and assisted in market research for branch locations in Exeter and
-                  Southampton.</li>
-                <li>Delivered excellent customer service by clearly explaining repair processes to non-technical
-                  customers, ensuring satisfaction with the service.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Aug 2021 - Sep 2021 </span>Bank Card Test
-                Centre</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Technology Intern</h4>
-
-              <ul class="timeline-text">
-                <li>Participated in assessing the clients' Fin Tech products' compliance with multiple regulatory
-                  requirements.</li>
-                <li>Assisted the Test Centre in acquiring new licenses for regulatory assessments by conducting
-                  desk-based research on financial technology qualifications and regulations.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title"><span style="display:inline">Jan 2021 - Apr 2021 </span>Mancode Human
-                Resource Limited</h4>
-
-              <h4 class="h4 timeline-item-subtitle">Headhunting Consultant</h4>
-
-              <ul class="timeline-text">
-                <li>Connected the candidates and companies in the Internet and High-Tech industry as headhunter;
-                  introduced the candidates to suitable positions and presented companies in the sector with abling
-                  candidates.</li>
-                <li>Scored A in KPI, produced one successful job offer case (made approx ₤3000 profit) and recommended
-                  over 40 candidates who received interviews.</li>
-              </ul>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="code"></ion-icon>
+    <section class="section">
+        <h2 class="section-title">Education</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">MSc High Performance Computing</div>
+                            <div class="company">University of Edinburgh</div>
+                        </div>
+                        <div class="date">2023 - 2024</div>
+                    </div>
+                    <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <p>Grade: Merit. Member of TeamEPCC (ISC Student Cluster Competition in Germany).</p>
+                    </div>
+                </div>
             </div>
-
-            <h3 class="h3">Project Experiences</h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Sep 2022 - Oct 2022
-                </span>
-                End-to-end Learning with Differentiable OFDM Systems (Python,Tensorflow)
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ University of Bristol | Undergraduate Dissertation
-              </h4>
-
-              <ul class="timeline-text">
-                <li>This research aims to evaluate the performance of using a Residual Neural Network (ResNet) based
-                  receiver in the autoencoder that is simulated in advanced Orthogonal Frequency Division Multiplexing
-                  (OFDM) systems at high-order Quadrature Amplitude Modulation (QAM).</li>
-                <li>Conducted experiments with different configurations of the ResNet using a simple Additive White
-                  Gaussian Noise (AWGN) channel model to gain insights on tuning the hyper-parameters.</li>
-                <li>Conclusions drawn from the experiments are then applied to advanced OFDM channel models that
-                  simulate realistic channel environments with 1024-QAM.</li>
-                <li>The trained model is benchmarked against two conventional baselines using a Bit Error Rate (BER).
-                </li>
-                <li>Results demonstrated that the neural receiver outperforms the traditional method in high-order QAM,
-                  where the symbols are more prone to noise.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Sep 2022 - Oct 2022
-                </span>
-                AHB Bridge in SoC (VHDL)
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ University of Bristol | Group Leader
-              </h4>
-
-              <ul class="timeline-text">
-                <li>Constructed a microprocessor-based System-on-Chip and replaced the Leon3 processor with the ARM
-                  Cortex-M0 in a System-on-Chip, designed and implemented a bridge between the Cortex-M0 and the rest of
-                  the SoC infrastructure to establish compatible communication.</li>
-                <li>Worked with professionally written VHDL and Verilog code and used advanced concepts such as VHDL
-                  records and generate statements, and tested the implementation efficiency by co-simulating Verilog and
-                  VHDL using Xilinx ISE.</li>
-                <li>Received high appraisal on the performance of our group's microprocessor design by exceeding the
-                  best achievable clock frequency stated by the professor.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Apr 2021 - Jun 2021
-                </span>
-                Peak Detector (VHDL)
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ University of Bristol | Group Leader
-              </h4>
-
-              <ul class="timeline-text">
-                <li>Familiarized with FPGA design in VHDL and produced a Peak Byte Detector Program that detects peak
-                  values in hexadecimal input series.</li>
-                <li>Implemented two-phase handshake protocols using logic gates to achieve robustness and validity of
-                  data from the generator to the processor; constructed ASM charts and FSM for designing state
-                  transition codes in the project.</li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Nov 2019 - Dec 2019
-                </span>
-                Compression Software (Python)
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ University of Bristol | Individual Project
-              </h4>
-
-              <ul class="timeline-text">
-                <li>Designed a compression application with GUI for the compression of files or folders and the
-                  decompression of .zip files using Python. Libraries used include tkinter, shutil, os, zipfile etc.
-                </li>
-              </ul>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="timeline">
-
-          <div class="title-wrapper">
-            <div class="icon-box">
-              <ion-icon name="trophy"></ion-icon>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="role">BEng Electrical & Electronic Engineering</div>
+                            <div class="company">University of Bristol</div>
+                        </div>
+                        <div class="date">2019 - 2023</div>
+                    </div>
+                    <div class="card-details" style="max-height: 100px; opacity: 1; margin-top: 10px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 10px;">
+                        <p>Grade: Second Class Honours (First Division).</p>
+                    </div>
+                </div>
             </div>
-
-            <h3 class="h3 award-sub">
-              Certificates & Awards
-              <!-- <p>
-                Click 
-                <img style="display: inline" src="./assets/images/external_link.svg">
-                 to view credentials
-              </p> -->
-            </h3>
-          </div>
-
-          <ol class="timeline-list">
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Oct 2023
-                </span>
-                Learning FPGA Development
-                <a href="https://www.linkedin.com/learning/certificates/d26f6f344658f47f8732f4da6bc56366a23fa390c2bf1a66928e7232abdac3a7"
-                  style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ LinkedIn
-              </h4>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Mar 2023
-                </span>
-                Building Deep Learning Models with TensorFlow
-                <a href="https://coursera.org/verify/YF2FTBRC76H9" style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ Coursera
-              </h4>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Feb 2023
-                </span>
-                Introduction to Deep Learning & Neural Networks with Keras
-                <a href="https://coursera.org/verify/PWXR5JLWNRCF" style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ Coursera
-              </h4>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Jan 2023
-                </span>
-                Machine Learning with Python
-                <a href="https://coursera.org/verify/5W6MWTFTYSH9" style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ Coursera
-              </h4>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Jan 2023
-                </span>
-                Bristol PLUS Award
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ University of Bristol
-              </h4>
-
-              <ul class="timeline-text">
-                <li>I further developed and enhanced my employability skillsets outside academia by achieving the
-                  University's employability award through completing internships and a series of workshops and courses.
-                </li>
-              </ul>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Sep 2022
-                </span>
-                Learn Data Analysis with Pandas Course
-                <a href="https://www.codecademy.com/profiles/harryrrah0706/certificates/95dd3ed417d7d6c449afffc6401b310a"
-                  style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ Codecademy
-              </h4>
-
-            </li>
-
-            <li class="timeline-item">
-
-              <h4 class="h4 timeline-item-title">
-                <span style="display:inline">
-                  Sep 2022
-                </span>
-                Learn Statistics with NumPy Course
-                <a href="https://www.codecademy.com/profiles/harryrrah0706/certificates/43135f7494712f4c3b1ced1a55be7be1"
-                  style="display: inline" target="_blank">
-                  <img src="./assets/images/external_link.svg">
-                </a>
-              </h4>
-
-              <h4 class="h4 timeline-item-subtitle">
-                @ Codecademy
-              </h4>
-
-            </li>
-
-          </ol>
-
-        </section>
-
-        <section class="skill">
-
-          <h3 class="h3 skills-title">Skills</h3>
-
-          <ul class="skills-list content-card">
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">SystemVerilog</h5>
-                <data value="80"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Python</h5>
-                <data value="90"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">C</h5>
-                <data value="80"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 85%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Linux</h5>
-                <data value="80"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 80%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Git</h5>
-                <data value="80"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 80%;"></div>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-        <section class="skill">
-
-          <h3 class="h3 skills-title">Communication Languages</h3>
-
-          <ul class="skills-list content-card">
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">Mandarin</h5>
-                <data value="100"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 100%;"></div>
-              </div>
-
-            </li>
-
-            <li class="skills-item">
-
-              <div class="title-wrapper">
-                <h5 class="h5">English</h5>
-                <data value="90"></data>
-              </div>
-
-              <div class="skill-progress-bg">
-                <div class="skill-progress-fill" style="width: 90%;"></div>
-              </div>
-
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #PORTFOLIO
-      -->
-
-      <article class="portfolio" data-page="portfolio">
-
-        <header>
-          <h2 class="h2 article-title">Portfolio</h2>
-        </header>
-
-        <section class="projects">
-
-          <ul class="filter-list">
-
-            <li class="filter-item">
-              <button class="active" data-filter-btn>All</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web design</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Applications</button>
-            </li>
-
-            <li class="filter-item">
-              <button data-filter-btn>Web development</button>
-            </li>
-
-          </ul>
-
-          <div class="filter-select-box">
-
-            <button class="filter-select" data-select>
-
-              <div class="select-value" data-selecct-value>Select category</div>
-
-              <div class="select-icon">
-                <ion-icon name="chevron-down"></ion-icon>
-              </div>
-
-            </button>
-
-            <ul class="select-list">
-
-              <li class="select-item">
-                <button data-select-item>All</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web design</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Applications</button>
-              </li>
-
-              <li class="select-item">
-                <button data-select-item>Web development</button>
-              </li>
-
-            </ul>
-
-          </div>
-
-          <ul class="project-list">
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-1.jpg" alt="finance" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Finance</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-2.png" alt="orizon" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Orizon</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-3.jpg" alt="fundo" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Fundo</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-4.png" alt="brawlhalla" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Brawlhalla</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-5.png" alt="dsm." loading="lazy">
-                </figure>
-
-                <h3 class="project-title">DSM.</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web design">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-6.png" alt="metaspark" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">MetaSpark</h3>
-
-                <p class="project-category">Web design</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-7.png" alt="summary" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Summary</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="applications">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-8.jpg" alt="task manager" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Task Manager</h3>
-
-                <p class="project-category">Applications</p>
-
-              </a>
-            </li>
-
-            <li class="project-item  active" data-filter-item data-category="web development">
-              <a href="#">
-
-                <figure class="project-img">
-                  <div class="project-item-icon-box">
-                    <ion-icon name="eye-outline"></ion-icon>
-                  </div>
-
-                  <img src="./assets/images/project-9.png" alt="arrival" loading="lazy">
-                </figure>
-
-                <h3 class="project-title">Arrival</h3>
-
-                <p class="project-category">Web development</p>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #BLOG
-      -->
-
-      <article class="blog" data-page="blog">
-
-        <header>
-          <h2 class="h2 article-title">Blog</h2>
-        </header>
-
-        <section class="blog-posts">
-
-          <ul class="blog-posts-list">
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-1.jpg" alt="Design conferences in 2022" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design conferences in 2022</h3>
-
-                  <p class="blog-text">
-                    Veritatis et quasi architecto beatae vitae dicta sunt, explicabo.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-2.jpg" alt="Best fonts every designer" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Best fonts every designer</h3>
-
-                  <p class="blog-text">
-                    Sed ut perspiciatis, nam libero tempore, cum soluta nobis est eligendi.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-3.jpg" alt="Design digest #80" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design digest #80</h3>
-
-                  <p class="blog-text">
-                    Excepteur sint occaecat cupidatat no proident, quis nostrum exercitationem ullam corporis suscipit.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-4.jpg" alt="UI interactions of the week" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">UI interactions of the week</h3>
-
-                  <p class="blog-text">
-                    Enim ad minim veniam, consectetur adipiscing elit, quis nostrud exercitation ullamco laboris nisi.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-5.jpg" alt="The forgotten art of spacing" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">The forgotten art of spacing</h3>
-
-                  <p class="blog-text">
-                    Maxime placeat, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-            <li class="blog-post-item">
-              <a href="#">
-
-                <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-6.jpg" alt="Design digest #79" loading="lazy">
-                </figure>
-
-                <div class="blog-content">
-
-                  <div class="blog-meta">
-                    <p class="blog-category">Design</p>
-
-                    <span class="dot"></span>
-
-                    <time datetime="2022-02-23">Fab 23, 2022</time>
-                  </div>
-
-                  <h3 class="h3 blog-item-title">Design digest #79</h3>
-
-                  <p class="blog-text">
-                    Optio cumque nihil impedit uo minus quod maxime placeat, velit esse cillum.
-                  </p>
-
-                </div>
-
-              </a>
-            </li>
-
-          </ul>
-
-        </section>
-
-      </article>
-
-
-
-
-
-      <!--
-        - #CONTACT
-      -->
-
-      <article class="contact" data-page="contact">
-
-        <header>
-          <h2 class="h2 article-title">Contact</h2>
-        </header>
-
-        <section class="mapbox" data-mapbox>
-          <figure>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2374.3940189865957!2d-2.241187944562497!3d53.4792892936445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb1c0f62fffff%3A0x80c17a84bc7780f4!2sARM%20Ltd.!5e0!3m2!1sen!2sus!4v1726284188739!5m2!1sen!2sus"
-              width="400" height="300" loading="lazy"></iframe>
-          </figure>
-        </section>
-
-        <section class="contact-form">
-
-          <h3 class="h3 form-title">Contact Form</h3>
-
-          <form action="./assets/php/send_email.php" method="POST">
-            <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required>
-              <input type="email" name="email" class="form-input" placeholder="Email address" required>
-            </div>
-            <textarea name="message" class="form-input" placeholder="Your Message" required></textarea>
-            <button class="form-btn" type="submit">
-              <ion-icon name="paper-plane"></ion-icon>
-              <span>Send Message</span>
-            </button>
-          </form>
-
-        </section>
-
-      </article>
-
-    </div>
-
-  </main>
-
-
-
-
-
-
-  <!--
-    - custom js link
-  -->
-  <script src="./assets/js/script.js"></script>
-
-  <!--
-    - ionicon link
-  -->
-  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
-  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
-
+        </div>
+    </section>
+
+    <section class="section">
+        <h2 class="section-title">Skills</h2>
+        <div class="skills-grid">
+            <div class="skill-tag">SystemVerilog</div>
+            <div class="skill-tag">SVA</div>
+            <div class="skill-tag">RTL Design</div>
+            <div class="skill-tag">Formal Verification</div>
+            <div class="skill-tag">Python</div>
+            <div class="skill-tag">C / C++</div>
+            <div class="skill-tag">Linux / Git</div>
+            <div class="skill-tag">Gem5 / QEMU</div>
+            <div class="skill-tag">CI/CD (Jenkins)</div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <p>Get in touch</p>
+        <div class="social-links" style="margin: 20px 0;">
+            <a href="mailto:harryrrah0706@gmail.com">Email</a>
+            <a href="https://www.linkedin.com/in/zihao-1-6164771bb/" target="_blank">LinkedIn</a>
+        </div>
+        <p>&copy; 2025 Zihao (Harry) Liu.</p>
+    </footer>
+
+    <script>
+        // --- 1. 打字机特效 ---
+        const text = "Hardware Engineer | RTL & Verification";
+        const typewriterElement = document.getElementById('typewriter');
+        let i = 0;
+
+        function typeWriter() {
+            if (i < text.length) {
+                typewriterElement.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            }
+        }
+        
+        setTimeout(typeWriter, 1000);
+
+        // --- 2. 滚动显现特效 ---
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.timeline-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // --- 3. 简历卡片交互 ---
+        function toggleCard(card) {
+            card.classList.toggle('active');
+        }
+
+        // --- 4. 磁吸导航栏 ---
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.background = 'rgba(0, 0, 0, 0.5)';
+            } else {
+                nav.style.background = 'rgba(0, 0, 0, 0.2)';
+            }
+        });
+    </script>
 </body>
-
 </html>
