@@ -23,7 +23,6 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            /* 背景图设置 */
             background-color: #000;
             color: var(--text-primary);
             font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
@@ -31,7 +30,7 @@
             overflow-x: hidden;
         }
 
-        /* 独立的背景层，用于开场淡入动画 */
+        /* 背景层 */
         #fuji-bg {
             position: fixed;
             top: 0;
@@ -66,32 +65,27 @@
             border: none;
         }
 
-        /* --- 2. Smart Floating Navigation (Capsule) --- */
+        /* --- 2. Smart Floating Navigation --- */
         .floating-nav {
             position: fixed;
             top: -100px;
             left: 50%;
             transform: translateX(-50%);
             z-index: 1000;
-            
             background: rgba(20, 20, 20, 0.6);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 50px;
             padding: 5px;
-            
             display: flex;
             gap: 5px; 
             align-items: center;
-            
             transition: top 0.6s cubic-bezier(0.16, 1, 0.3, 1);
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
 
-        .floating-nav.visible {
-            top: 20px;
-        }
+        .floating-nav.visible { top: 20px; }
 
         .floating-nav a {
             position: relative;
@@ -106,15 +100,9 @@
             white-space: nowrap;
         }
 
-        .floating-nav a:hover {
-            color: #fff;
-        }
+        .floating-nav a:hover { color: #fff; }
+        .floating-nav a.active { color: #fff; }
 
-        .floating-nav a.active {
-            color: #fff; 
-        }
-
-        /* The Sliding Indicator */
         .nav-indicator {
             position: absolute;
             top: 5px; 
@@ -130,7 +118,7 @@
             opacity: 0; 
         }
 
-        /* --- 3. Hero 区域 --- */
+        /* --- 3. Hero Section --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -190,7 +178,6 @@
             margin: -5px;
             animation: scrollBounce 2s infinite;
         }
-
         .scroll-arrow:nth-child(2) { animation-delay: 0.2s; }
         .scroll-arrow:nth-child(3) { animation-delay: 0.4s; }
 
@@ -213,6 +200,7 @@
             min-height: 1.5em;
         }
 
+        /* 修复重点：Nav Grid 自身不再有动画，交给 Nav Card */
         .nav-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr); 
@@ -220,12 +208,7 @@
             gap: 20px;
             width: 100%;
             max-width: 900px;
-            opacity: 0; 
-            transform: translateY(30px);
-            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
         }
-
-        .nav-grid.visible { opacity: 1; transform: translateY(0); }
 
         .nav-card {
             background: rgba(255, 255, 255, 0.03);
@@ -241,9 +224,23 @@
             justify-content: center;
             align-items: center;
             gap: 15px;
-            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             position: relative;
             overflow: hidden;
+            
+            /* 初始状态：隐藏且下沉 */
+            opacity: 0;
+            transform: translateY(30px);
+            /* 过渡效果：加入 transform 和 opacity 的平滑过渡 */
+            transition: 
+                opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.3s, border-color 0.3s, box-shadow 0.3s; /* Hover effects */
+        }
+
+        /* 当添加 visible 类时，卡片上浮并显示 */
+        .nav-card.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         .nav-card.experience { grid-column: span 3; } 
@@ -253,21 +250,12 @@
         .nav-card.hobbies { grid-column: span 2; } 
         .nav-card.contact { grid-column: span 6; }
 
-        .nav-card svg {
-            width: 40px;
-            height: 40px;
-            fill: rgba(255,255,255,0.7);
-            transition: fill 0.3s;
-        }
-
-        .nav-card span {
-            font-size: 1.1rem;
-            font-weight: 500;
-            z-index: 2;
-        }
-
-        .nav-card:hover {
-            transform: scale(1.03);
+        .nav-card svg { width: 40px; height: 40px; fill: rgba(255,255,255,0.7); transition: fill 0.3s; }
+        .nav-card span { font-size: 1.1rem; font-weight: 500; z-index: 2; }
+        
+        /* Hover Effects (Only applies when visible and hovered) */
+        .nav-card.visible:hover {
+            transform: scale(1.03); /* 微放大 */
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255,255,255,0.2);
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
@@ -286,35 +274,15 @@
 
         /* --- Shared Section Styles --- */
         .section { padding: 100px 20px; max-width: 800px; margin: 0 auto; }
-        
-        .section-title-wrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 60px;
-        }
+        .section-title-wrapper { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 60px; }
         .section-title { font-size: 2.5rem; text-align: center; text-shadow: 0 4px 10px rgba(0,0,0,0.5); margin-bottom: 0; }
-        
         #contact .section-title { margin-bottom: 100px; }
 
-        .download-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            transition: all 0.3s;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            border: 1px solid rgba(255,255,255,0.1);
-        }
+        .download-btn { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border-radius: 50%; transition: all 0.3s; cursor: pointer; backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.1); }
         .download-btn svg { width: 20px; height: 20px; fill: var(--text-primary); }
         .download-btn:hover { background: var(--accent-color); transform: scale(1.1); border-color: var(--accent-color); }
 
-        /* Timeline & Cards */
+        /* Timeline */
         .timeline { position: relative; padding-left: 40px; }
         .timeline::before { content: ''; position: absolute; left: 0; top: 0; width: 2px; height: 100%; background: rgba(255, 255, 255, 0.2); }
         .timeline-item { position: relative; margin-bottom: 60px; opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -352,29 +320,19 @@
         .mbti-label { font-size: 1.5rem; font-weight: 600; margin-top: 10px; color: var(--text-primary); }
         .mbti-desc { color: var(--text-secondary); font-size: 0.9rem; margin-top: 5px; }
 
-        /* Hobbies Scrollytelling (Adjusted Padding & Spacing) */
-        #hobbies-wrapper { 
-            position: relative; 
-            width: 100%; 
-            z-index: 10; 
-            /* IMPORTANT: Add top padding to match standard sections */
-            padding-top: 100px;
-            padding-bottom: 50px;
-        }
+        /* Hobbies */
+        #hobbies-wrapper { position: relative; width: 100%; z-index: 10; padding-top: 100px; padding-bottom: 50px; }
         .video-background-layer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; opacity: 0; transition: opacity 0.8s ease; }
         .video-background-layer video { width: 100%; height: 100%; object-fit: cover; }
         body.show-vid-lol #vid-lol-layer { opacity: 1; }
         body.show-vid-mc #vid-mc-layer { opacity: 1; }
         body.show-vid-card #vid-card-layer { opacity: 1; }
-        
-        /* Reduced spacer height for tighter layout */
         .interest-spacer { height: 10vh; }
-        
         .interest-item { height: 80vh; display: flex; align-items: center; justify-content: center; opacity: 0.3; transition: opacity 0.5s, transform 0.5s; transform: scale(0.9); }
         .interest-item.active-interest { opacity: 1; transform: scale(1.1); }
         .interest-text { font-size: 4rem; font-weight: 800; text-transform: uppercase; -webkit-text-stroke: 2px rgba(255,255,255,0.8); color: transparent; text-shadow: 0 0 30px rgba(0,0,0,0.8); letter-spacing: 5px; }
 
-        /* --- Contact Section --- */
+        /* Contact */
         .contact-container { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 40px; }
         .social-icons { display: flex; justify-content: center; gap: 40px; margin-top: 20px; }
         .glass-btn { display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border-radius: 20px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); transition: all 0.4s; text-decoration: none; color: #fff; }
@@ -662,7 +620,7 @@
         <h2 class="section-title">Contact</h2>
         <div class="contact-container">
             <div class="map-wrapper">
-                <iframe src="https://maps.google.com/maps?q=Arm+Manchester+36+Jackson's+Row&t=&z=13&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2374.303974642456!2d-2.2475479234250266!3d53.48083657231422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487bb1c2a05d5b7d%3A0x8e87557375363765!2s36%20Jackson's%20Row%2C%20Manchester%20M2%205WD%2C%20UK!5e0!3m2!1sen!2suk!4v1709230000000!5m2!1sen!2suk" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             <form class="contact-form" id="contact-form">
                 <div class="form-group">
@@ -729,7 +687,13 @@
                 navIndex++;
                 setTimeout(typeNavQuestion, 50);
             } else {
-                navGrid.classList.add('visible');
+                // Staggered Reveal
+                const cards = document.querySelectorAll('.nav-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('visible');
+                    }, index * 100);
+                });
             }
         }
 
