@@ -444,33 +444,39 @@
                 <div class="timeline-dot"></div>
                 <div class="card" onclick="toggleCard(this)">
                     <div class="card-header">
-                        <div><div class="role">Graduate Engineer</div><div class="company">Arm</div><span class="location">Manchester, United Kingdom</span></div>
-                        <div class="date">Sep 2024 - Present</div>
+                        <div><div class="role">RTL Design Engineer</div><div class="company">Arm</div><span class="location">Manchester, United Kingdom</span></div>
+                        <div class="date">Apr 2026 - Present</div>
                     </div>
                     <div class="card-details">
-                        <strong>RTL Design Role</strong>
                         <ul>
-                            <li>Redesigned shared RTL modules, including parity-protected registers and custom delay reset-sampling logic.</li>
-                            <li>Verified correctness with designer SVA assertions and Formality LEC.</li>
-                            <li>Performed synthesis using standard-cell libraries with different voltage thresholds and analyzed timing/area trade-offs to determine achievable frequency and identify critical-path bottlenecks.</li>
-                            <li>Exposure to low-power techniques including state-retention and clock-gating strategies while participating in cache microarchitecture design meetings.</li>
-                            <li>Developed a module instantiation analysis Python tool to scan the codebase and report port/parameter usage in each instantiation of the same module.</li>
-                            <li>Analysed parameter usage and removed redundant parameters.</li>
-                            <li>Created three JasperGold custom linting rules using TCL to flag non-compliant coding patterns.</li>
-                            <li>Updated standard RTL components (e.g. logic gates, n-depth synchroniser, clock-gating cells) in SMMU to align with Arm-wide design conventions, gaining exposure to CDC methodologies and standardized design practices.</li>
+                            <li>Working in Arm's System Memory Management Unit (SMMU) team.</li>
+                            <li>Responsible for the design and implementation of the Bus Interface Unit in SMMU, functioning as a read/write buffer between external devices and the Translation Lookaside Buffer while handling conversion between AMBA AXI and LTI transactions.</li>
+                            <li>Investigated reset domain crossing solutions for a new multi-reset-pin feature and created a detailed design report.</li>
                         </ul>
-                        <strong>Formal Verification Role</strong>
+                    </div>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="card" onclick="toggleCard(this)">
+                    <div class="card-header">
+                        <div><div class="role">Graduate Engineer</div><div class="company">Arm</div><span class="location">Manchester, United Kingdom</span></div>
+                        <div class="date">Sep 2024 - Mar 2026</div>
+                    </div>
+                    <div class="card-details">
+                        <strong>RTL Design Rotation</strong>
                         <ul>
-                            <li>Designed and brought up three formal testbenches from scratch for previously unverified blocks in SMMU and discovered 14 functional RTL bugs that dynamic verification missed.</li>
-                            <li>Independently root-caused failing formal properties, identifying underlying RTL issues before handing-off to designers, reducing designer debug time.</li>
-                            <li>Maintained and stabilized two inherited formal testbenches, cleaning unreachable properties, resolving over-constraints, and improving abstraction models for complex data and control paths.</li>
-                            <li>Familiar with formal techniques including bounded coverage analysis, COI/Proofcore coverage analysis, X-propagation checking and proof-depth tuning.</li>
-                            <li>Integrated formal testbenches with dynamic simulations, debugging and resolving over-constrained properties to ensure formal models accurately reflect hardware behavior.</li>
+                            <li>Worked on the design of a parity-protected control/data register module, synthesized the design using cell libraries with different voltage thresholds, and performed timing analysis to identify maximum frequency and timing bottlenecks.</li>
+                            <li>Developed a Python module usage analysis tool to scan the codebase, map instance parameter usage into Excel reports, and identify and eliminate redundant module parameters.</li>
+                            <li>Developed custom JasperGold linting rules using TCL to enforce coding standards and automatically flag non-compliant RTL patterns.</li>
                         </ul>
-                        <strong>Additional Responsibilities</strong>
+                        <strong>Formal Verification Rotation</strong>
                         <ul>
-                            <li>Served as internal Out-of-Box reviewer for three product release sign-offs.</li>
-                            <li>Reviewed documentation, installation flows, and testbench usage guides to improve clarity before customer delivery.</li>
+                            <li>Developed three formal verification testbenches from scratch for previously unverified SMMU blocks, discovering 14 critical functional bugs missed by dynamic verification.</li>
+                            <li>Accelerated designer debug time by independently root-causing failing formal properties and isolating the underlying RTL issue prior to hand-off.</li>
+                            <li>Maintained and stabilized legacy formal testbenches by pruning unreachable properties, resolving over-constraints, and developing abstraction models for complex control and data paths.</li>
+                            <li>Applied formal techniques including bounded coverage analysis, ProofCore/COI coverage, X-propagation checking, and proof-depth tuning.</li>
+                            <li>Integrated formal testbenches with dynamic regressions, debugging and resolving over-constrained properties to ensure formal models accurately reflect intended behavior.</li>
                         </ul>
                     </div>
                 </div>
@@ -484,11 +490,10 @@
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Developed a Python-based Gem5 checkpointing tool that extracts hardware simulation statistics such as TLB and cache hits, memory access latency, and bandwidth to support CPU memory management research.</li>
-                            <li>Generated checkpoints using simple CPU models after launching client-server applications (Redis, MySQL) in Gem5, enabling researchers to restore checkpoints with complex CPU models for simulations that provide more fine-grained statistics.</li>
-                            <li>Enhanced the tool to parallelize the restoration of multiple checkpoints and automate launching multiple Gem5 simulations with a variety of boot configuration and set-ups.</li>
-                            <li>Worked on restoring QEMU-based checkpoints using Gem5 CPU models.</li>
-                            <li>Created Linux root file systems, disk images, and kernels for both QEMU and Gem5 environments.</li>
+                            <li>Developed a Python-based Gem5 checkpointing tool to extract granular hardware simulation statistics (TLB/cache hits, latency, and bandwidth) to drive CPU memory management research.</li>
+                            <li>Streamlined simulation workflows by generating checkpoints from simple Gem5 models that initialize client-server applications (Redis and MySQL), allowing researchers to restore them on complex Gem5 models for deep, fine-grained analysis while running the applications.</li>
+                            <li>Automated and parallelized the restoration of multiple Gem5 simulations across diverse boot configurations.</li>
+                            <li>Built custom Linux root file systems, disk images, and kernels for QEMU and Gem5 environments.</li>
                         </ul>
                     </div>
                 </div>
@@ -502,12 +507,10 @@
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Interned with the System Memory Management Unit (SMMU) Design Team.</li>
-                            <li>Contributed to a Python-based register generation workflow that automatically produces RTL design for configuration register host blocks and corresponding UVM coverage file, eliminating redundant and error-prone manual coding for register verification.</li>
-                            <li>Developed four reusable SystemVerilog templates that can be fed into the workflow to generate RTL for 40+ register host blocks, along with coverpoints using various bin types and cross coverage to ensure all register values are exercised.</li>
-                            <li>Developed a new feature that enables designer adding custom register field guarding conditions that can be picked up by the flow and incorporate into RTL.</li>
-                            <li>Refactored part of the flow which reduced auto-generation time by at least 20%.</li>
-                            <li>Participated in technical design and timing review discussions, gaining exposure to industry-standard best practices.</li>
+                            <li>Contributed to a Python-based register generation workflow that automatically generates RTL and UVM coverage files for register host blocks, helping eliminate error-prone coding activities for register access RTL and verification. Designed four reusable SystemVerilog templates to generate RTL and UVM code for 40+ register host blocks.</li>
+                            <li>Implemented a feature that enables designers to specify register field guarding expressions in YAML for integration into the RTL and UVM generation workflow.</li>
+                            <li>Identified and improved workflow inefficiencies, reducing run time by at least 20%.</li>
+                            <li>Gained exposure to industry-standard best practices through daily technical design and verification meetings.</li>
                         </ul>
                     </div>
                 </div>
@@ -521,11 +524,10 @@
                     </div>
                     <div class="card-details">
                         <ul>
-                            <li>Designed and implemented CI/CD pipelines from scratch for the Team using GitLab CI and Jenkins.</li>
-                            <li>Improved computational resource efficiency by deploying a Kubernetes machine cluster for running regression jobs.</li>
-                            <li>Built and customized Docker images for multiple test environments and integrated them into the Kubernetes cluster.</li>
-                            <li>Developed Jenkins pipelines for nightly, merge requests, and sanity regressions, and utilized Jenkins plugins for cross-pipeline triggering and automated email notifications.</li>
-                            <li>Created a Python-based test report generation tool with Pandas to parse LLVM testsuite logs, delivering visualized regression statistics via a variety of charts and graphs.</li>
+                            <li>Architected CI/CD pipelines from scratch using GitLab CI and Jenkins to automate regression testing.</li>
+                            <li>Improved computational resource efficiency by containerizing test environments with Docker and deploying them to Kubernetes clusters.</li>
+                            <li>Developed Jenkins pipelines for nightly and sanity regressions, utilizing plugins for automated cross-pipeline triggering and email alerts.</li>
+                            <li>Created a Python data visualization tool to parse LLVM test suite logs and generate graphical regression reports.</li>
                         </ul>
                     </div>
                 </div>
@@ -581,13 +583,12 @@
         <h2 class="section-title">My Skills</h2>
         <div class="skills-container">
             <div class="skill-item"><div class="skill-info"><span>SystemVerilog</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 90%;"></div></div></div>
-            <div class="skill-item"><div class="skill-info"><span>RTL Design</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>RTL Design</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 85%;"></div></div></div>
             <div class="skill-item"><div class="skill-info"><span>Formal Verification</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 85%;"></div></div></div>
             <div class="skill-item"><div class="skill-info"><span>Python</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
-            <div class="skill-item"><div class="skill-info"><span>C / C++</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 70%;"></div></div></div>
             <div class="skill-item"><div class="skill-info"><span>Linux</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
             <div class="skill-item"><div class="skill-info"><span>Git</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 90%;"></div></div></div>
-            <div class="skill-item"><div class="skill-info"><span>CI/CD</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 80%;"></div></div></div>
+            <div class="skill-item"><div class="skill-info"><span>CI/CD</span></div><div class="progress-bar-bg"><div class="progress-bar-fill" style="--percent: 85%;"></div></div></div>
         </div>
     </section>
 
@@ -596,10 +597,10 @@
     <section class="section" id="mbti">
         <h2 class="section-title">My MBTI</h2>
         <div class="mbti-container">
-            <a href="https://www.16personalities.com/isfj-personality" target="_blank" class="mbti-icon-wrapper" title="Learn about ISFJ">
-                <img src="isfj.svg" alt="ISFJ Avatar" class="mbti-icon" onerror="this.src='https://ui-avatars.com/api/?name=ISFJ&background=4298B4&color=fff&size=150'"> 
+            <a href="https://www.16personalities.com/istj-personality" target="_blank" class="mbti-icon-wrapper" title="Learn about ISTJ">
+                <img src="istj.svg" alt="ISTJ Avatar" class="mbti-icon" onerror="this.src='https://ui-avatars.com/api/?name=ISTJ&background=4298B4&color=fff&size=150'">
             </a>
-            <div class="mbti-label">ISFJ-A</div>
+            <div class="mbti-label">ISTJ-A</div>
         </div>
     </section>
 
